@@ -1,0 +1,19 @@
+module SqlMisc
+imports SqlIdentifiers
+exports
+  sorts ColumnRef Column Table DupElim
+  context-free syntax
+
+    (Catalog ".")? Identifier -> Schema    {cons("Schema")}
+    (Schema ".")?  Identifier -> BaseTable {cons("BaseTable")}
+
+    BaseTable -> Table 
+
+    (ColumnQualifier ".")? Column -> ColumnRef {cons("ColumnRef")}
+
+    Table      -> ColumnQualifier
+    RangeVar   -> ColumnQualifier
+    Identifier -> ColumnQualifier {cons("AmbQualifier"), prefer}
+
+    "ALL"       -> DupElim {cons("All")}
+    "DISTINCT"  -> DupElim {cons("Distinct")}

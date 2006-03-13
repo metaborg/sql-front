@@ -1,0 +1,8 @@
+2003-07-21  Martin Bravenboer <mbravenb@cs.uu.nl>
+
+  * Introduction AmbQualifer construct because Table
+    and RangeVar ColumnQualifiers are ambigous.
+
+2003-07-18  Martin Bravenboer <mbravenb@cs.uu.nl>
+
+  * test/syn/table-exp.testsuite: added descriptions of the tests

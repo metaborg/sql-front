@@ -1,0 +1,3 @@
+(SELECT * FROM Book)
+  UNION ALL
+(SELECT * FROM Paper)

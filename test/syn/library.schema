@@ -1,0 +1,10 @@
+Schema(
+  [ Relation(
+      Name("Book"),
+      [ Attribute("ID")
+      , Attribute("Author")
+      , Attribute("Title")
+      ]
+    )
+  ]
+)

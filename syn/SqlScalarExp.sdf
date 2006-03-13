@@ -1,0 +1,38 @@
+module SqlScalarExp
+imports SqlMisc SqlLiterals
+exports
+  sorts ScalarExp
+  context-free syntax
+    NumExp     -> ScalarExp
+    
+    UInt       -> NumExp {cons("Int")}
+    ColumnRef  -> NumExp
+    AggrFunRef -> NumExp {cons("Aggr")}
+
+    "-" NumExp        -> NumExp {cons("Uminus")}
+    "(" NumExp ")"    -> NumExp {bracket} 
+    NumExp "*" NumExp -> NumExp {left, cons("Mul")}
+    NumExp "/" NumExp -> NumExp {left, cons("Div")}
+
+    NumExp "+" NumExp -> NumExp {left, cons("Plus")}
+    NumExp "-" NumExp -> NumExp {left, cons("Min")}
+
+    "COUNT(*)"                           -> AggrFunRef {cons("CountAll")}
+    AggrFun "(" DupElim?  ScalarExp ")"  -> AggrFunRef {cons("Aggr")}
+
+    "AVG"   -> AggrFun {cons("Avg")  }
+    "MAX"   -> AggrFun {cons("Max")  }
+    "MIN"   -> AggrFun {cons("Min")  }
+    "SUM"   -> AggrFun {cons("Sum")  }
+    "COUNT" -> AggrFun {cons("Count")}
+ 
+  context-free priorities
+      "-" NumExp -> NumExp
+    > {left:
+        NumExp "*" NumExp -> NumExp
+        NumExp "/" NumExp -> NumExp
+      } 
+    > {left:
+        NumExp "+" NumExp -> NumExp
+        NumExp "-" NumExp -> NumExp
+      }

@@ -1,0 +1,32 @@
+TestSuite(
+  Name("SQL")
+, Sort("TableExp")
+, Tests(
+  [ Test(Descr("Select basetable"), File("test-1.sql"), Success())
+  , Test(Descr("Select distinct and projection"), File("test-10.sql"), Success())
+  , Test(Descr("Simple projection"), File("test-9.sql"), Success())
+  , Test(Descr("Project 2 columns"), File("test-2.sql"), Success())
+  , Test(Descr("Project column AS"), File("test-14.sql"), Success())
+  , Test(Descr("AS and Expression projection"), File("test-13.sql"), Success())
+
+  , Test(Descr("Select all with simple condition"), File("test-19.sql"), Success())
+  , Test(Descr("Select all with simple condition"), File("test-2-2.sql"), Success())
+  , Test(Descr("Project with simple condition"), File("test-3.sql"), Success())
+  , Test(Descr("And condition"), File("test-4.sql"), Success())
+  , Test(Descr("Mixed and/or condition"), File("test-5.sql"), Success())
+  , Test(Descr("Mixed and/or condition with brackets"), File("test-6.sql"), Success())
+  , Test(Descr("More arithmetic operators"), File("test-7.sql"), Success())
+
+  , Test(Descr("Nested query in FROM clause"), File("test-12.sql"), Success())
+  , Test(Descr("Nested query in NOT IN condition"), File("test-15-2.sql"), Success())
+  , Test(Descr("Nested query in ANY condition"), File("test-16.sql"), Success())
+
+  , Test(Descr("Simple all union"), File("test-17.sql"), Success())
+  , Test(Descr("Simple distinct union"), File("test-18.sql"), Success())
+  , Test(Descr("Union with projection"), File("test-11.sql"), Success())
+
+  , Test(Descr("Simple natural join"), File("test-20.sql"), Success())
+
+  , Test(Descr("Column ref with table specification"), File("column-1.sql"), Success())
+  ])
+)

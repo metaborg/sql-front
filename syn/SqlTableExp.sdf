@@ -1,0 +1,42 @@
+module SqlTableExp
+imports SqlIdentifiers SqlCondExp SqlScalarExp SqlMisc
+exports
+  sorts TableExp RowConstructor
+  context-free syntax
+
+    JoinTableExp -> TableRef
+    Table  ("AS" RangeVar ( {Column ","}+ )? )?       -> TableRef {cons("TableRef")}
+    "(" TableExp ")" "AS" RangeVar ( {Column ","}+ )? -> TableRef {cons("TableRef")}
+
+    JoinTableExp -> TableExp
+
+    TableExp "UNION"     DupElim? TableExp -> TableExp {cons("Union")}
+    TableExp "EXCEPT"    DupElim? TableExp -> TableExp {cons("Except")}
+    TableExp "INTERSECT" DupElim? TableExp -> TableExp {cons("Intersect")}
+
+    "(" TableExp ")" -> TableExp {bracket}
+
+    TableRef "CROSS JOIN"                TableRef       -> JoinTableExp {cons("CrossJoin")}
+    TableRef "NATURAL" JoinType? "JOIN"  TableRef       -> JoinTableExp {cons("NaturalJoin")}
+
+    TableRef  JoinType? "JOIN"  TableRef "ON" CondExp -> JoinTableExp {cons("JoinOn")}
+    TableRef  JoinType? "JOIN"  TableRef "USING" "(" {Column ","}+ ")" -> JoinTableExp {cons("JoinUsing")}
+
+    "INNER"       -> JoinType {cons("Inner")}
+    "LEFT OUTER"  -> JoinType {cons("Left")}
+    "RIGHT OUTER" -> JoinType {cons("Right")}
+    "FULL OUTER"  -> JoinType {cons("Full")}
+    "UNION"       -> JoinType {cons("Union")}
+
+    ScalarExp -> RowConstructor
+
+    "SELECT" DupElim? {SelectItem ","}+
+      "FROM" {TableRef ","}+
+        ("WHERE" CondExp)?
+          ("GROUP BY" {ColumnRef ","}+ )?
+            ( "HAVING" CondExp)?
+      -> TableExp {cons("SelectExp")}
+
+    %% incompatible: AS keyword is optional
+    ScalarExp ("AS" Column)? -> SelectItem {cons("ColumnProject")}  
+    (RangeVar ".")? "*"      -> SelectItem {cons("WildcardProject")} 

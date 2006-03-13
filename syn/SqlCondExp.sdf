@@ -1,0 +1,39 @@
+module SqlCondExp
+imports SqlScalarExp SqlTableExp
+exports
+  sorts CondExp
+  context-free syntax
+
+    CondExp "AND" CondExp -> CondExp {left, cons("And")} 
+    CondExp "OR"  CondExp -> CondExp {left, cons("Or")} 
+    "NOT" CondExp         -> CondExp {cons("Not")} 
+    "(" CondExp ")"       -> CondExp {bracket} 
+
+    ScalarExp CompOp ScalarExp -> CondExp {non-assoc, cons("Comparison")}
+
+    RowConstructor "IN" "(" TableExp ")"        -> CondExp {cons("In")}
+    RowConstructor "NOT" "IN" "(" TableExp ")"  -> CondExp {cons("NotIn")}
+
+    RowConstructor CompOp "ALL"  "(" TableExp ")" -> CondExp {cons("AllComp")}
+    RowConstructor CompOp "ANY"  "(" TableExp ")" -> CondExp {cons("AnyComp")}
+    RowConstructor CompOp "SOME" "(" TableExp ")" -> CondExp {cons("SomeComp")}
+
+    "="  -> CompOp {cons("EqOp")  }
+    "<"  -> CompOp {cons("LtOp")  }
+    "<=" -> CompOp {cons("LtEqOp")}
+    ">"  -> CompOp {cons("GtOp")  }
+    ">=" -> CompOp {cons("GtEqOp")}
+    "<>" -> CompOp {cons("LtGtOp")}
+   
+  context-free priorities
+      {non-assoc:
+        ScalarExp "="  ScalarExp -> CondExp
+        ScalarExp "<"  ScalarExp -> CondExp
+        ScalarExp "<=" ScalarExp -> CondExp
+        ScalarExp ">"  ScalarExp -> CondExp
+        ScalarExp ">=" ScalarExp -> CondExp
+        ScalarExp "<>" ScalarExp -> CondExp
+      }
+    > "NOT" CondExp         -> CondExp
+    > CondExp "AND" CondExp -> CondExp
+    > CondExp "OR" CondExp  -> CondExp

@@ -1,0 +1,50 @@
+module sql-limit-format
+imports SQL list-basic options
+
+strategies
+
+  main-sql-limit-format =
+    io-wrap(table-exp)
+
+  table-exp = 
+      SelectExp(Some(dup-elim)
+             , list(id) // List(SelectItem)
+             , list(table-ref)
+             , None + Some(condition)
+             , ?[]      // Option((List(ColumnRef)))
+             , None     //Option((CondExp))
+      ) 
+
+    + Union(     table-exp, Some(dup-elim), table-exp )
+    + Intersect( table-exp, Some(dup-elim), table-exp )
+    + Except(    table-exp, Some(dup-elim), table-exp )
+
+    + CrossJoin(table-exp, table-exp)
+    + NaturalJoin(table-exp, natural-join-type, table-exp)
+    + JoinOn(table-exp, join-type, table-exp, condition)
+    + JoinUsing(table-exp, join-type, table-exp, id)
+
+  table-ref = 
+      TableRef(BaseTable(None, is-string), None)
+    + TableRef(table-exp, range-var, [])
+
+  range-var =
+      RangeVar(is-string)
+
+  condition =
+    id
+
+  dup-elim =
+      ?All()
+    + ?Distinct()
+
+  natural-join-type =
+      ?Inner()
+    + ?Left()
+    + ?Right()
+    + ?Full()
+    + ?Inner()
+
+  join-type = 
+      natural-join-type
+    + ?Union()

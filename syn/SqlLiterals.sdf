@@ -1,0 +1,5 @@
+module SqlLiterals
+exports
+  sorts UInt
+  lexical syntax
+    [0-9]+ -> UInt

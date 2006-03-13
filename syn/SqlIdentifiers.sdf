@@ -1,0 +1,15 @@
+module SqlIdentifiers
+imports SqlKeywords
+exports
+  sorts Catalog Column RangeVar
+  context-free syntax
+    Identifier -> Catalog   {cons("Catalog")} 
+    Identifier -> Column    {cons("Column")} 
+    Identifier -> RangeVar  {cons("RangeVar")} 
+
+  lexical syntax
+    [a-zA-Z][a-zA-Z0-9]*  -> Identifier
+    ReservedKeyword       -> Identifier {reject}
+
+  lexical restrictions
+    Identifier -/- [a-zA-Z0-9]

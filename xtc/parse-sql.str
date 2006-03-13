@@ -1,0 +1,12 @@
+module parse-sql
+imports xtc-lib stratego-xt-xtc-tools
+
+strategies
+  
+  main-parse-sql =
+    xtc-io-wrap(xtc-parse-sql)
+
+  xtc-parse-sql =
+      xtc-sglr(!"SQL.tbl", !"TableExp")
+    ; xtc-implode-asfix
+    ; xtc-transform(!"sql-desugar")
