@@ -1,2 +1,6 @@
 module SQL
-imports SqlTableExp SqlWhiteSpace SqlKeywords SqlLiterals 
+imports
+  SqlTableExp SqlWhiteSpace SqlKeywords SqlLiterals 
+
+exports
+  context-free start-symbols TableExp
