@@ -1,10 +1,8 @@
 module languages/sql92/expressions/Scalar
 imports
   languages/sql92/Misc
-  languages/sql92/lexical/Literals
+  languages/sql92/lexical/Literal
 
-module SqlScalarExp
-imports SqlMisc SqlLiterals
 exports
   sorts ScalarExp
   context-free syntax

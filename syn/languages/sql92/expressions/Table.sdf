@@ -1,9 +1,10 @@
 module languages/sql92/expressions/Table
 imports
-  languages/sql92/expressions/Identifier
+  languages/sql92/Misc
+  languages/sql92/lexical/Identifier
   languages/sql92/expressions/Conditional
   languages/sql92/expressions/Scalar
-  languages/sql92/expressions/Misc
+
 
 exports
   sorts TableExp RowConstructor

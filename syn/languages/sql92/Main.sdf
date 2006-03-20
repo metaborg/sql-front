@@ -1,6 +1,6 @@
 module languages/sql92/Main
 imports
   languages/sql92/expressions/Table
-  languages/sql92/expressions/lexical/Whitespace  
-  languages/sql92/expressions/lexical/Keyword
-  languages/sql92/expressions/lexical/Literal  
+  languages/sql92/lexical/Whitespace  
+  languages/sql92/lexical/Keyword
+  languages/sql92/lexical/Literal  

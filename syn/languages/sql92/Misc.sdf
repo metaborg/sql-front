@@ -1,4 +1,4 @@
-module languages/sql92/Main
+module languages/sql92/Misc
 imports
   languages/sql92/lexical/Identifier
 
