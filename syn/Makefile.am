@@ -13,7 +13,7 @@ sql92.def : $(MODS)
 
 MODS = \
   $(wildcard *.sdf) \
-  $(wildcard languages/sql/*.sdf) \
-  $(wildcard languages/sql/lexical/*.sdf) \
-  $(wildcard languages/sql/expressions/*.sdf)
+  $(wildcard languages/sql92/*.sdf) \
+  $(wildcard languages/sql92/lexical/*.sdf) \
+  $(wildcard languages/sql92/expressions/*.sdf)
   
