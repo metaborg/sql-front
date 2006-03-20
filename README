@@ -1,8 +1,8 @@
 --------------------------------------------------------------------------
-sql-front
+SQL-front
 --------------------------------------------------------------------------
   
-  Copyright (C) 2003 Eelco Visser <visser@acm.org>
+  Copyright (C) 2003-2006 Stratego Software Foundation
   
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,7 @@ sql-front
 --------------------------------------------------------------------------
 
 Author:
-  Martin Bravenboer <mbravenb@cs.uu.nl>
+  Martin Bravenboer <martin@cs.uu.nl>
 
 --------------------------------------------------------------------------
 
