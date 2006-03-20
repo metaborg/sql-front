@@ -1,5 +1,7 @@
 module sql-limit-format
-imports SQL list-basic options
+imports
+  SQL
+  libstrategolib
 
 strategies
 

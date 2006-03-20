@@ -4,14 +4,14 @@
  * - ...
  */
 module sql-desugar
-
-imports options
-imports SQL
+imports
+  SQL
+  libstrategolib
 
 strategies
 
   main-sql-desugar =
-    io-wrap(topdown(try(implode-asfix-fix); sql-desugar))
+    io-wrap(topdown(sql-desugar))
 
   sql-desugar = 
     topdown(try(SQL-Desugar))

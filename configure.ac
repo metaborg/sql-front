@@ -29,7 +29,6 @@ AC_CONFIG_FILES([
   Makefile
   sql-front.spec
   syn/Makefile
-  sig/Makefile
   trans/Makefile
   xtc/Makefile
   test/Makefile
