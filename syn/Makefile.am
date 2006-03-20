@@ -1,16 +1,14 @@
 include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
-TBLS_DEFS      = sql92.tbl sql92.def
-sdfdata_DATA   = $(TBLS_DEFS) $(wildcard *.sdf)
+sdfdata_DATA   = sql92.def sql92.tbl
 pkgdata_DATA   = sql92.rtg sql92.rtree
 EXTRA_DIST     = $(MODS)
-BOOTCLEANFILES = $(TBLS_DEFS) $(pkgdata_DATA)
+BOOTCLEANFILES = $(TBLS_DEFS) sql92.rtg sql92.rtree
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main sql92
 
-sql92.rtg : sql92.def
 sql92.def : $(MODS)
 
 MODS = \
@@ -18,3 +16,4 @@ MODS = \
   $(wildcard languages/sql/*.sdf) \
   $(wildcard languages/sql/lexical/*.sdf) \
   $(wildcard languages/sql/expressions/*.sdf)
+  
