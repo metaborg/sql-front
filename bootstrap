@@ -3,5 +3,4 @@
 set -e
 
 autoxt
-auto-java-front
 autoreconf -ifv
