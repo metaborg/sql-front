@@ -1,32 +1,65 @@
-TestSuite(
-  Name("SQL")
-, Sort("TableExp")
-, Tests(
-  [ Test(Descr("Select basetable"), File("test-1.sql"), Success())
-  , Test(Descr("Select distinct and projection"), File("test-10.sql"), Success())
-  , Test(Descr("Simple projection"), File("test-9.sql"), Success())
-  , Test(Descr("Project 2 columns"), File("test-2.sql"), Success())
-  , Test(Descr("Project column AS"), File("test-14.sql"), Success())
-  , Test(Descr("AS and Expression projection"), File("test-13.sql"), Success())
+testsuite SQL Table Expressions
+topsort TableExp
 
-  , Test(Descr("Select all with simple condition"), File("test-19.sql"), Success())
-  , Test(Descr("Select all with simple condition"), File("test-2-2.sql"), Success())
-  , Test(Descr("Project with simple condition"), File("test-3.sql"), Success())
-  , Test(Descr("And condition"), File("test-4.sql"), Success())
-  , Test(Descr("Mixed and/or condition"), File("test-5.sql"), Success())
-  , Test(Descr("Mixed and/or condition with brackets"), File("test-6.sql"), Success())
-  , Test(Descr("More arithmetic operators"), File("test-7.sql"), Success())
+test Select basetable
+  file test-1.sql succeeds
 
-  , Test(Descr("Nested query in FROM clause"), File("test-12.sql"), Success())
-  , Test(Descr("Nested query in NOT IN condition"), File("test-15-2.sql"), Success())
-  , Test(Descr("Nested query in ANY condition"), File("test-16.sql"), Success())
+test Select distinct and projection
+  file test-10.sql succeeds
 
-  , Test(Descr("Simple all union"), File("test-17.sql"), Success())
-  , Test(Descr("Simple distinct union"), File("test-18.sql"), Success())
-  , Test(Descr("Union with projection"), File("test-11.sql"), Success())
+test Simple projection
+  file test-9.sql succeeds
 
-  , Test(Descr("Simple natural join"), File("test-20.sql"), Success())
+test Project 2 columns
+  file test-2.sql succeeds
 
-  , Test(Descr("Column ref with table specification"), File("column-1.sql"), Success())
-  ])
-)
+test Project column AS
+  file test-14.sql succeeds
+
+test AS and Expression projection
+  file test-13.sql succeeds
+
+test Select all with simple condition
+  file test-19.sql succeeds
+
+test Select all with simple condition
+  file test-2-2.sql succeeds
+
+test Project with simple condition
+  file test-3.sql succeeds
+
+test And condition
+  file test-4.sql succeeds
+
+test Mixed and/or condition
+  file test-5.sql succeeds
+
+test Mixed and/or condition with brackets
+  file test-6.sql succeeds
+
+test More arithmetic operators
+  file test-7.sql succeeds
+
+test Nested query in FROM clause
+  file test-12.sql succeeds
+
+test Nested query in NOT IN condition
+  file test-15-2.sql succeeds
+
+test Nested query in ANY condition
+  file test-16.sql succeeds
+
+test Simple all union
+  file test-17.sql succeeds
+
+test Simple distinct union
+  file test-18.sql succeeds
+
+test Union with projection
+  file test-11.sql succeeds
+
+test Simple natural join
+  file test-20.sql succeeds
+
+test Column ref with table specification
+  file column-1.sql succeeds
