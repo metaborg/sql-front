@@ -1,10 +1,11 @@
 include $(top_srcdir)/Makefile.xt
 include $(wildcard *.dep)
 
-bin_PROGRAMS   = parse-sql
+bin_PROGRAMS = parse-sql
+nodist_parse_sql_SOURCES = parse-sql.c
 
-SCFLAGS        = --main main-$*
-STRINCLUDES    = -I $(XTC)/share/xtc
+LDADD = $(SSL_LIBS)
+STRCFLAGS = --main main-$*
 
 EXTRA_DIST     = $(wildcard *.str) $(wildcard *.meta)
 CLEANFILES     = $(wildcard *.dep)
