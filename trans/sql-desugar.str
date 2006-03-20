@@ -19,9 +19,6 @@ strategies
   SQL-Desugar =
     SQL-Desugar-Duplicate
 
-  implode-asfix-fix :
-    ""#([t]) -> t
-
 rules
 
   /**
