@@ -1,6 +1,6 @@
 module sql-limit-format
 imports
-  SQL
+  sql92
   libstrategolib
 
 strategies

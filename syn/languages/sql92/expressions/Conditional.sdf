@@ -1,5 +1,8 @@
-module SqlCondExp
-imports SqlScalarExp SqlTableExp
+module languages/sql92/expressions/Conditional
+imports
+  languages/sql92/expressions/Table
+  languages/sql92/expressions/Scalar
+ 
 exports
   sorts CondExp
   context-free syntax

@@ -1,5 +1,7 @@
-module SqlMisc
-imports SqlIdentifiers
+module languages/sql92/Main
+imports
+  languages/sql92/lexical/Identifier
+
 exports
   sorts ColumnRef Column Table DupElim
   context-free syntax

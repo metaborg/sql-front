@@ -1,4 +1,4 @@
-module SqlLiterals
+module languages/sql/Literal
 exports
   sorts UInt
   lexical syntax

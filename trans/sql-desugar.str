@@ -5,7 +5,7 @@
  */
 module sql-desugar
 imports
-  SQL
+  sql92
   libstrategolib
 
 strategies

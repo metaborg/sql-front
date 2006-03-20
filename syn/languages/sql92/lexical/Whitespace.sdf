@@ -1,4 +1,4 @@
-module SqlWhiteSpace
+module languages/sql92/lexical/Whitespace
 exports
   lexical syntax
     [\ \t\n\13] -> LAYOUT

@@ -1,4 +1,4 @@
-module SqlKeywords
+module languages/sql92/lexical/Keyword
 exports
   sorts ReservedKeyword
 
