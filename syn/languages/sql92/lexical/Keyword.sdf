@@ -48,4 +48,5 @@ exports
     "WIDTH"     -> ReservedKeyword 
 
   lexical restrictions
+    %% TODO: fix this
     ReservedKeyword -/- [a-zA-Z0-9\_\$]

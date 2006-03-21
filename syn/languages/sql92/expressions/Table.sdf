@@ -11,8 +11,10 @@ exports
   context-free syntax
 
     JoinTableExp -> TableRef
-    Table  ("AS" RangeVar ( {Column ","}+ )? )?       -> TableRef {cons("TableRef")}
-    "(" TableExp ")" "AS" RangeVar ( {Column ","}+ )? -> TableRef {cons("TableRef")}
+    Table (OptionalAs RangeVar ( {Column ","}+ )? )?
+      -> TableRef {cons("TableRef")}
+    "(" TableExp ")" OptionalAs RangeVar ( "(" {Column ","}+ ")" )?
+      -> TableRef {cons("TableRef")}
 
     JoinTableExp -> TableExp
 
@@ -43,6 +45,9 @@ exports
             ( "HAVING" CondExp)?
       -> TableExp {cons("SelectExp")}
 
-    %% incompatible: AS keyword is optional
-    ScalarExp ("AS" Column)? -> SelectItem {cons("ColumnProject")}  
-    (RangeVar ".")? "*"      -> SelectItem {cons("WildcardProject")} 
+    ScalarExp (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}  
+    (RangeVar ".")? "*"            -> SelectItem {cons("WildcardProject")}
+
+    %% Ugh, these should not be visible in the AST at all.
+    "AS" -> OptionalAs {cons("As")}
+         -> OptionalAs {cons("NoAs")}

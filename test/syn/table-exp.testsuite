@@ -63,3 +63,9 @@ test Simple natural join
 
 test Column ref with table specification
   file column-1.sql succeeds
+
+test Identifiers
+  file test-21.sql succeeds
+
+test Omit AS keyword
+  file test-22.sql succeeds

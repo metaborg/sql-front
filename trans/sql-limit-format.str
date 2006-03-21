@@ -28,7 +28,9 @@ strategies
 
   table-ref = 
       TableRef(BaseTable(None, is-string), None)
-    + TableRef(table-exp, range-var, [])
+    + TableRef(table-exp, optional-as, range-var, [])
+
+  optional-as = ?As() + ?NoAs()
 
   range-var =
       RangeVar(is-string)
