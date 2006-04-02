@@ -28,6 +28,7 @@ AC_PROG_LIBTOOL
 AC_CONFIG_FILES([
   Makefile
   sql-front.spec
+  sql-front.pc
   syn/Makefile
   trans/Makefile
   xtc/Makefile

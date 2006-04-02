@@ -1,0 +1,13 @@
+module auto-sql-front
+imports
+  libxtclib
+
+strategies
+
+  main-auto-sql-front =
+    install-sql-front-m4
+    ; <exit> 0
+
+  install-sql-front-m4 =
+      <xtc-find-file> "sql-front.m4"
+    ; copy-to(!"sql-front.m4")

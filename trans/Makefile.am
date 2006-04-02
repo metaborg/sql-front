@@ -4,7 +4,7 @@ include $(wildcard *.dep)
 bin_PROGRAMS  = sql-desugar sql-limit-format
 STRCFLAGS     = --main main-$*
 STRINCLUDES   = -I $(top_srcdir)/syn
-LDADD         = $(SSL_LIBS)
+LDADD        += $(SSL_LIBS)
 
 EXTRA_DIST     = $(wildcard *.str) $(wildcard *.meta)
 CLEANFILES     = $(wildcard *.dep)
