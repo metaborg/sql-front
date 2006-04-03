@@ -45,8 +45,10 @@ exports
             ( "HAVING" CondExp)?
       -> TableExp {cons("SelectExp")}
 
-    ScalarExp (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}  
-    (RangeVar ".")? "*"            -> SelectItem {cons("WildcardProject")}
+    ScalarExp (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}
+
+                 "*" -> SelectItem {cons("WildcardProject")}
+    RangeVar "." "*" -> SelectItem {cons("WildcardProject")}
 
     %% Ugh, these should not be visible in the AST at all.
     "AS" -> OptionalAs {cons("As")}
