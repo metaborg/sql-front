@@ -1,29 +1,27 @@
-module languages/sql92/expressions/Scalar
+module languages/sql92/expressions/Value
 imports
   languages/sql92/Misc
   languages/sql92/lexical/Literal
 
 exports
-  sorts ScalarExp
+  sorts ValExp
   context-free syntax
-    NumExp     -> ScalarExp
+    Lit        -> ValExp {cons("Lit")}
+    ColumnRef  -> ValExp
+    AggrFunRef -> ValExp {cons("Aggr")}
+
+    "+" ValExp -> ValExp {cons("Plus")}
+    "-" ValExp -> ValExp {cons("Minus")}
     
-    Lit        -> NumExp {cons("Lit")}
-    ColumnRef  -> NumExp
-    AggrFunRef -> NumExp {cons("Aggr")}
+    "(" ValExp ")"    -> ValExp {bracket} 
+    ValExp "*" ValExp -> ValExp {left, cons("Mul")}
+    ValExp "/" ValExp -> ValExp {left, cons("Div")}
 
-    "+" NumExp -> NumExp {cons("Plus")}
-    "-" NumExp -> NumExp {cons("Minus")}
-    
-    "(" NumExp ")"    -> NumExp {bracket} 
-    NumExp "*" NumExp -> NumExp {left, cons("Mul")}
-    NumExp "/" NumExp -> NumExp {left, cons("Div")}
+    ValExp "+" ValExp -> ValExp {left, cons("Plus")}
+    ValExp "-" ValExp -> ValExp {left, cons("Min")}
 
-    NumExp "+" NumExp -> NumExp {left, cons("Plus")}
-    NumExp "-" NumExp -> NumExp {left, cons("Min")}
-
-    "COUNT(*)"                           -> AggrFunRef {cons("CountAll")}
-    AggrFun "(" DupElim?  ScalarExp ")"  -> AggrFunRef {cons("Aggr")}
+    "COUNT(*)"                        -> AggrFunRef {cons("CountAll")}
+    AggrFun "(" DupElim?  ValExp ")"  -> AggrFunRef {cons("Aggr")}
 
     "AVG"   -> AggrFun {cons("Avg")  }
     "MAX"   -> AggrFun {cons("Max")  }
@@ -33,14 +31,14 @@ exports
  
   context-free priorities
       {
-        "+" NumExp -> NumExp
-        "-" NumExp -> NumExp
+        "+" ValExp -> ValExp
+        "-" ValExp -> ValExp
       }
     > {left:
-        NumExp "*" NumExp -> NumExp
-        NumExp "/" NumExp -> NumExp
+        ValExp "*" ValExp -> ValExp
+        ValExp "/" ValExp -> ValExp
       } 
     > {left:
-        NumExp "+" NumExp -> NumExp
-        NumExp "-" NumExp -> NumExp
+        ValExp "+" ValExp -> ValExp
+        ValExp "-" ValExp -> ValExp
       }
