@@ -1,7 +1,7 @@
 module languages/sql92/expressions/Conditional
 imports
   languages/sql92/expressions/Table
-  languages/sql92/expressions/Scalar
+  languages/sql92/expressions/Value
  
 exports
   sorts CondExp
@@ -12,7 +12,7 @@ exports
     "NOT" CondExp         -> CondExp {cons("Not")} 
     "(" CondExp ")"       -> CondExp {bracket} 
 
-    ScalarExp CompOp ScalarExp -> CondExp {non-assoc, cons("Comparison")}
+    ValExp CompOp ValExp -> CondExp {non-assoc, cons("Comparison")}
 
     RowConstructor "IN" "(" TableExp ")"        -> CondExp {cons("In")}
     RowConstructor "NOT" "IN" "(" TableExp ")"  -> CondExp {cons("NotIn")}
@@ -29,14 +29,6 @@ exports
     "<>" -> CompOp {cons("LtGtOp")}
    
   context-free priorities
-      {non-assoc:
-        ScalarExp "="  ScalarExp -> CondExp
-        ScalarExp "<"  ScalarExp -> CondExp
-        ScalarExp "<=" ScalarExp -> CondExp
-        ScalarExp ">"  ScalarExp -> CondExp
-        ScalarExp ">=" ScalarExp -> CondExp
-        ScalarExp "<>" ScalarExp -> CondExp
-      }
-    > "NOT" CondExp         -> CondExp
+     "NOT" CondExp         -> CondExp
     > CondExp "AND" CondExp -> CondExp
     > CondExp "OR" CondExp  -> CondExp

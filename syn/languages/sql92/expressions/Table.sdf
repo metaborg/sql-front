@@ -3,7 +3,7 @@ imports
   languages/sql92/Misc
   languages/sql92/lexical/Identifier
   languages/sql92/expressions/Conditional
-  languages/sql92/expressions/Scalar
+  languages/sql92/expressions/Value
 
 
 exports
@@ -38,7 +38,7 @@ exports
     "FULL OUTER"  -> JoinType {cons("Full")}
     "UNION"       -> JoinType {cons("Union")}
 
-    ScalarExp -> RowConstructor
+    ValExp -> RowConstructor
 
     "SELECT" DupElim? {SelectItem ","}+
       "FROM" {TableRef ","}+
@@ -47,7 +47,7 @@ exports
             ( "HAVING" CondExp)?
       -> TableExp {cons("SelectExp")}
  
-    ScalarExp (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}
+    ValExp (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}
     (RangeVar ".")? "*" -> SelectItem {cons("WildcardProject")}
 
     %% Ugh, these should not be visible in the AST at all.

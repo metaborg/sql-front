@@ -4,7 +4,7 @@ include $(wildcard *.dep)
 sdfdata_DATA   = sql92.def sql92.tbl Sql92Testing.tbl
 pkgdata_DATA   = sql92.rtg sql92.rtree
 EXTRA_DIST     = $(MODS)
-BOOTCLEANFILES = $(TBLS_DEFS) sql92.rtg sql92.rtree
+BOOTCLEANFILES = $(TBLS_DEFS) sql92.rtg sql92.rtree $(wildcard *.dep)
 
 PGEN_FLAGS     = -m $*
 SDF2RTG_FLAGS  = --main sql92

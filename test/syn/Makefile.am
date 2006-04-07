@@ -3,7 +3,7 @@ include $(top_srcdir)/Makefile.xt
 pkgdata_DATA = $(wildcard *.sql)
 EXTRA_DIST = $(wildcard *.testsuite) $(wildcard *.sql)
 
-TESTSUITES = table-exp.testsuite scalar-exp.testsuite
+TESTSUITES = table-exp.testsuite value-exp.testsuite
 SQL_TABLE="$$(XTC_REPOSITORY=$(BUILD_REPOSITORY) $(XTC)/bin/xtc get Sql92Testing.tbl)"
 
 %.runtestsuite : %.testsuite

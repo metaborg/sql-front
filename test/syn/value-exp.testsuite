@@ -1,5 +1,5 @@
-testsuite Scalar expressions
-topsort ScalarExp
+testsuite Value expressions
+topsort ValExp
 
 test
   ['123 Main St.'] -> Lit(CharString("123 Main St."))
