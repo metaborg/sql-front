@@ -1,0 +1,53 @@
+testsuite Scalar expressions
+topsort ScalarExp
+
+test
+  ['123 Main St.'] -> Lit(CharString("123 Main St."))
+
+test
+  ['Pig'] -> Lit(CharString("Pig"))
+
+test
+  ['honey don''t'] -> Lit(CharString("honey don''t"))
+
+test
+  ['honey don't'] fails
+
+test
+  ['honey don'''t'] fails
+
+test
+  ['honey don''''t'] succeeds
+
+test
+  "4" -> Lit(ExactNum("4"))
+
+test
+  "7." -> Lit(ExactNum("7."))
+
+test
+  "-95.7" -> Minus(Lit(ExactNum("95.7")))
+
+test
+  "+364.5" -> Plus(Lit(ExactNum("364.5")))
+
+test
+  "0.0007" -> Lit(ExactNum("0.0007"))
+
+test
+  ".6333" -> Lit(ExactNum(".6333"))
+
+test
+  "4E3" -> Lit(ApproxNum("4E3"))
+
+test
+  "-95.7E46" -> Minus(Lit(ApproxNum("95.7E46")))
+
+test
+  "+364E-5" -> Plus(Lit(ApproxNum("364E-5")))
+
+test
+  "0.7E1" -> Lit(ApproxNum("0.7E1"))
+
+test
+  "-.15E-15" -> Minus(Lit(ApproxNum(".15E-15")))

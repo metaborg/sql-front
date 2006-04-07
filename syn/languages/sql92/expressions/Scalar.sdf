@@ -8,11 +8,13 @@ exports
   context-free syntax
     NumExp     -> ScalarExp
     
-    UInt       -> NumExp {cons("Int")}
+    Lit        -> NumExp {cons("Lit")}
     ColumnRef  -> NumExp
     AggrFunRef -> NumExp {cons("Aggr")}
 
-    "-" NumExp        -> NumExp {cons("Uminus")}
+    "+" NumExp -> NumExp {cons("Plus")}
+    "-" NumExp -> NumExp {cons("Minus")}
+    
     "(" NumExp ")"    -> NumExp {bracket} 
     NumExp "*" NumExp -> NumExp {left, cons("Mul")}
     NumExp "/" NumExp -> NumExp {left, cons("Div")}
@@ -30,7 +32,10 @@ exports
     "COUNT" -> AggrFun {cons("Count")}
  
   context-free priorities
-      "-" NumExp -> NumExp
+      {
+        "+" NumExp -> NumExp
+        "-" NumExp -> NumExp
+      }
     > {left:
         NumExp "*" NumExp -> NumExp
         NumExp "/" NumExp -> NumExp
