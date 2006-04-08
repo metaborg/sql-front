@@ -7,30 +7,30 @@ imports
 
 
 exports
-  sorts TableExp RowConstructor
+  sorts TableExpr RowConstructor
   context-free syntax
 
-    JoinTableExp -> TableRef
+    JoinTableExpr -> TableRef
 
     Table (OptionalAs RangeVar ( "(" {Column ","}+ ")")? )?
       -> TableRef {cons("TableRef")}
 
-    "(" TableExp ")" OptionalAs RangeVar ( "(" {Column ","}+ ")" )?
+    "(" TableExpr ")" OptionalAs RangeVar ( "(" {Column ","}+ ")" )?
       -> TableRef {cons("TableRef")}
 
-    JoinTableExp -> TableExp
+    JoinTableExpr -> TableExpr
 
-    TableExp "UNION"     DupElim? TableExp -> TableExp {cons("Union")}
-    TableExp "EXCEPT"    DupElim? TableExp -> TableExp {cons("Except")}
-    TableExp "INTERSECT" DupElim? TableExp -> TableExp {cons("Intersect")}
+    TableExpr "UNION"     DupElim? TableExpr -> TableExpr {cons("Union")}
+    TableExpr "EXCEPT"    DupElim? TableExpr -> TableExpr {cons("Except")}
+    TableExpr "INTERSECT" DupElim? TableExpr -> TableExpr {cons("Intersect")}
 
-    "(" TableExp ")" -> TableExp {bracket}
+    "(" TableExpr ")" -> TableExpr {bracket}
 
-    TableRef "CROSS JOIN"                TableRef       -> JoinTableExp {cons("CrossJoin")}
-    TableRef "NATURAL" JoinType? "JOIN"  TableRef       -> JoinTableExp {cons("NaturalJoin")}
+    TableRef "CROSS JOIN"                TableRef       -> JoinTableExpr {cons("CrossJoin")}
+    TableRef "NATURAL" JoinType? "JOIN"  TableRef       -> JoinTableExpr {cons("NaturalJoin")}
 
-    TableRef  JoinType? "JOIN"  TableRef "ON" CondExp -> JoinTableExp {cons("JoinOn")}
-    TableRef  JoinType? "JOIN"  TableRef "USING" "(" {Column ","}+ ")" -> JoinTableExp {cons("JoinUsing")}
+    TableRef  JoinType? "JOIN"  TableRef "ON" CondExpr -> JoinTableExpr {cons("JoinOn")}
+    TableRef  JoinType? "JOIN"  TableRef "USING" "(" {Column ","}+ ")" -> JoinTableExpr {cons("JoinUsing")}
 
     "INNER"       -> JoinType {cons("Inner")}
     "LEFT OUTER"  -> JoinType {cons("Left")}
@@ -38,16 +38,16 @@ exports
     "FULL OUTER"  -> JoinType {cons("Full")}
     "UNION"       -> JoinType {cons("Union")}
 
-    ValExp -> RowConstructor
+    ValExpr -> RowConstructor
 
     "SELECT" DupElim? {SelectItem ","}+
       "FROM" {TableRef ","}+
-        ("WHERE" CondExp)?
+        ("WHERE" CondExpr)?
           ("GROUP BY" {ColumnRef ","}+ )?
-            ( "HAVING" CondExp)?
-      -> TableExp {cons("SelectExp")}
+            ( "HAVING" CondExpr)?
+      -> TableExpr {cons("Select")}
  
-    ValExp (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}
+    ValExpr (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}
     (RangeVar ".")? "*" -> SelectItem {cons("WildcardProject")}
 
     %% Ugh, these should not be visible in the AST at all.

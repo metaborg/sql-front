@@ -2,24 +2,25 @@ module languages/sql92/expressions/Conditional
 imports
   languages/sql92/expressions/Table
   languages/sql92/expressions/Value
+  languages/sql92/expressions/CharacterValue
  
 exports
-  sorts CondExp
+  sorts CondExpr
   context-free syntax
 
-    CondExp "AND" CondExp -> CondExp {left, cons("And")} 
-    CondExp "OR"  CondExp -> CondExp {left, cons("Or")} 
-    "NOT" CondExp         -> CondExp {cons("Not")} 
-    "(" CondExp ")"       -> CondExp {bracket} 
+    CondExpr "AND" CondExpr -> CondExpr {left, cons("And")} 
+    CondExpr "OR"  CondExpr -> CondExpr {left, cons("Or")} 
+    "NOT" CondExpr         -> CondExpr {cons("Not")} 
+    "(" CondExpr ")"       -> CondExpr {bracket} 
 
-    ValExp CompOp ValExp -> CondExp {non-assoc, cons("Comparison")}
+    ValExpr CompOp ValExpr -> CondExpr {non-assoc, cons("Comparison")}
 
-    RowConstructor "IN" "(" TableExp ")"        -> CondExp {cons("In")}
-    RowConstructor "NOT" "IN" "(" TableExp ")"  -> CondExp {cons("NotIn")}
+    RowConstructor "IN" "(" TableExpr ")"        -> CondExpr {cons("In")}
+    RowConstructor "NOT" "IN" "(" TableExpr ")"  -> CondExpr {cons("NotIn")}
 
-    RowConstructor CompOp "ALL"  "(" TableExp ")" -> CondExp {cons("AllComp")}
-    RowConstructor CompOp "ANY"  "(" TableExp ")" -> CondExp {cons("AnyComp")}
-    RowConstructor CompOp "SOME" "(" TableExp ")" -> CondExp {cons("SomeComp")}
+    RowConstructor CompOp "ALL"  "(" TableExpr ")" -> CondExpr {cons("AllComp")}
+    RowConstructor CompOp "ANY"  "(" TableExpr ")" -> CondExpr {cons("AnyComp")}
+    RowConstructor CompOp "SOME" "(" TableExpr ")" -> CondExpr {cons("SomeComp")}
 
     "="  -> CompOp {cons("EqOp")  }
     "<"  -> CompOp {cons("LtOp")  }
@@ -27,8 +28,12 @@ exports
     ">"  -> CompOp {cons("GtOp")  }
     ">=" -> CompOp {cons("GtEqOp")}
     "<>" -> CompOp {cons("LtGtOp")}
-   
+    
+    CharValExpr Not? "LIKE" CharValExpr EscapeClause? -> CondExpr {cons("Like")}
+    "NOT" -> Not {cons("Not")}
+    "ESCAPE" CharValExpr? -> EscapeClause {cons("Escape")}
+  
   context-free priorities
-     "NOT" CondExp         -> CondExp
-    > CondExp "AND" CondExp -> CondExp
-    > CondExp "OR" CondExp  -> CondExp
+     "NOT" CondExpr         -> CondExpr
+    > CondExpr "AND" CondExpr -> CondExpr
+    > CondExpr "OR" CondExpr  -> CondExpr

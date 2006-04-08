@@ -9,9 +9,18 @@ module languages/sql92/lexical/Literal
 exports
   sorts Lit
   context-free syntax
-    CharStringLit -> Lit
-    ApproxNumLit  -> Lit {cons("ApproxNum")}
-    ExactNumLit   -> Lit {cons("ExactNum")}
+    UnsignedNumLit -> UnsignedLit
+    GeneralLit     -> UnsignedLit
+
+    CharStringLit     -> GeneralLit
+    NatCharStringLit  -> GeneralLit
+    BitStringLit      -> GeneralLit
+    HexStringLit      -> GeneralLit
+    DateTimeStringLit -> GeneralLit
+    IntervalLit       -> GeneralLit
+
+    ApproxNumLit  -> UnsignedNumLit {cons("ApproxNum")}
+    ExactNumLit   -> UnsignedNumLit {cons("ExactNum")}
 
   sorts ExactNumLit ApproxNumLit
   lexical syntax

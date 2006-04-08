@@ -2,43 +2,34 @@ module languages/sql92/expressions/Value
 imports
   languages/sql92/Misc
   languages/sql92/lexical/Literal
+  languages/sql92/expressions/Primary[NumValExpr]
+  languages/sql92/expressions/ValueSpecification
 
 exports
-  sorts ValExp
+  sorts NumValExpr ValExpr
   context-free syntax
-    Lit        -> ValExp {cons("Lit")}
-    ColumnRef  -> ValExp
-    AggrFunRef -> ValExp {cons("Aggr")}
+    NumValExpr -> ValExpr
 
-    "+" ValExp -> ValExp {cons("Plus")}
-    "-" ValExp -> ValExp {cons("Minus")}
+    "+" NumValExpr -> NumValExpr {cons("Plus")}
+    "-" NumValExpr -> NumValExpr {cons("Minus")}
     
-    "(" ValExp ")"    -> ValExp {bracket} 
-    ValExp "*" ValExp -> ValExp {left, cons("Mul")}
-    ValExp "/" ValExp -> ValExp {left, cons("Div")}
+    "(" NumValExpr ")" -> NumValExpr {bracket} 
+    NumValExpr "*" NumValExpr -> NumValExpr {left, cons("Mul")}
+    NumValExpr "/" NumValExpr -> NumValExpr {left, cons("Div")}
 
-    ValExp "+" ValExp -> ValExp {left, cons("Plus")}
-    ValExp "-" ValExp -> ValExp {left, cons("Min")}
-
-    "COUNT(*)"                        -> AggrFunRef {cons("CountAll")}
-    AggrFun "(" DupElim?  ValExp ")"  -> AggrFunRef {cons("Aggr")}
-
-    "AVG"   -> AggrFun {cons("Avg")  }
-    "MAX"   -> AggrFun {cons("Max")  }
-    "MIN"   -> AggrFun {cons("Min")  }
-    "SUM"   -> AggrFun {cons("Sum")  }
-    "COUNT" -> AggrFun {cons("Count")}
+    NumValExpr "+" NumValExpr -> NumValExpr {left, cons("Plus")}
+    NumValExpr "-" NumValExpr -> NumValExpr {left, cons("Min")}
  
   context-free priorities
       {
-        "+" ValExp -> ValExp
-        "-" ValExp -> ValExp
+        "+" NumValExpr -> NumValExpr
+        "-" NumValExpr -> NumValExpr
       }
     > {left:
-        ValExp "*" ValExp -> ValExp
-        ValExp "/" ValExp -> ValExp
+        NumValExpr "*" NumValExpr -> NumValExpr
+        NumValExpr "/" NumValExpr -> NumValExpr
       } 
     > {left:
-        ValExp "+" ValExp -> ValExp
-        ValExp "-" ValExp -> ValExp
+        NumValExpr "+" NumValExpr -> NumValExpr
+        NumValExpr "-" NumValExpr -> NumValExpr
       }
