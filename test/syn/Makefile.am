@@ -5,7 +5,7 @@ EXTRA_DIST = $(wildcard *.testsuite) $(wildcard *.sql)
 
 TESTSUITES = \
   table-exp.testsuite \
-  value-exp.testsuite \
+  value-expr.testsuite \
   conditional-expr.testsuite
 
 SQL_TABLE="$$(XTC_REPOSITORY=$(BUILD_REPOSITORY) $(XTC)/bin/xtc get Sql92Testing.tbl)"
