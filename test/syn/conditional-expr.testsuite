@@ -1,0 +1,29 @@
+testsuite Conditional Expressions
+topsort CondExpr
+
+test And condition
+  "1 < 2 AND 2 > 3" -> And(_, _)
+
+test Or condition
+  "1 < 2 OR 2 > 3" -> Or(_, _)
+
+test And condition
+  "1 < 2 AND 2 > 3 AND 3 = 4" -> And(And(_, _), _)
+
+test Or condition
+  "1 < 2 OR 2 > 3 OR 3 = 4" -> Or(Or(_, _), _)
+
+test Not condition
+  "NOT 1 < 2" -> Not(_)
+
+test Not And condition
+  "NOT 1 < 2 AND 2 > 3" -> And(Not(_), _)
+
+test Like condition
+  "foo LIKE 'C%'" -> Like(_, None(), _, None())
+
+test Like condition with escape
+  "foo LIKE 'C%' ESCAPE '='" -> Like(_, None(), _, Some(_))
+
+test Like condition
+  "foo NOT LIKE 'C%'" -> Like(_, Some(_), _, None())
