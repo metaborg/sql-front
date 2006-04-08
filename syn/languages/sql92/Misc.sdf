@@ -3,7 +3,7 @@ imports
   languages/sql92/lexical/Identifier
 
 exports
-  sorts ColumnRef Column Table DupElim
+  sorts ColumnRef ColumnQualifier Table SetQuantifier
   context-free syntax
 
     (Catalog ".")? Identifier -> Schema    {cons("Schema")}
@@ -11,11 +11,11 @@ exports
 
     BaseTable -> Table 
 
-    (ColumnQualifier ".")? Column -> ColumnRef {cons("ColumnRef")}
+    (ColumnQualifier ".")? ColumnName -> ColumnRef {cons("ColumnRef")}
 
     Table      -> ColumnQualifier
     RangeVar   -> ColumnQualifier
     Identifier -> ColumnQualifier {cons("AmbQualifier"), prefer}
 
-    "ALL"       -> DupElim {cons("All")}
-    "DISTINCT"  -> DupElim {cons("Distinct")}
+    "ALL"       -> SetQuantifier {cons("All")}
+    "DISTINCT"  -> SetQuantifier {cons("Distinct")}

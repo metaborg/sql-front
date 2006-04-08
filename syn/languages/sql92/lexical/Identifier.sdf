@@ -3,11 +3,12 @@ imports
   languages/sql92/lexical/Keyword
 
 exports
-  sorts Catalog Column RangeVar
+  sorts Catalog ColumnName TableName RangeVar
   context-free syntax
-    Identifier -> Catalog   {cons("Catalog")} 
-    Identifier -> Column    {cons("Column")} 
-    Identifier -> RangeVar  {cons("RangeVar")} 
+    Identifier -> Catalog    {cons("Catalog")} 
+    Identifier -> ColumnName {cons("ColumnName")} 
+    Identifier -> TableName  {cons("TableName")}
+    Identifier -> RangeVar   {cons("RangeVar")} 
 
   lexical syntax
     [a-zA-Z][a-zA-Z0-9\_]* -> Identifier

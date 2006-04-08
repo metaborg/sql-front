@@ -5,32 +5,69 @@ imports
   languages/sql92/expressions/Conditional
   languages/sql92/expressions/Value
 
-
 exports
-  sorts TableExpr RowConstructor
+  sorts QueryExpr TableExpr RowConstructor
   context-free syntax
+    JoinTableExpr     -> QueryExpr
+    "(" QueryExpr ")" -> QueryExpr {bracket}
 
+    QueryExpr "UNION"     All? Corresponding? QueryExpr -> QueryExpr {cons("Union")}
+    QueryExpr "EXCEPT"    All? Corresponding? QueryExpr -> QueryExpr {cons("Except")}
+    QueryExpr "INTERSECT" All? Corresponding? QueryExpr -> QueryExpr {cons("Intersect")}
+    "ALL" -> All {cons("All")} 
+    "CORRESPONDING" ByClause?      -> Corresponding {cons("Corresponding")}
+    "BY" "(" {ColumnName ","}+ ")" -> ByClause      {cons("By")}
+
+    "VALUES" {RowConstructor ","}+  -> QueryExpr {cons("Values")}
+    "TABLE" TableName               -> QueryExpr {cons("Table")}
+
+  %%%
+   %% Query specification
+   %%%  
+  context-free syntax
+    "SELECT" SetQuantifier? {SelectItem ","}+ TableExpr -> QueryExpr {cons("Select")}
+
+
+    ValExpr (As? ColumnName)? -> SelectItem {cons("ColumnProject")}
+    (RangeVar ".")? "*"     -> SelectItem {cons("WildcardProject")}
+
+    %% Ugh, these should not be visible in the AST at all.
+    "AS" -> As {cons("As")}
+
+  %%%
+   %% Table expression
+   %%%
+  context-free syntax
+    "FROM" {TableRef ","}+
+      ("WHERE" CondExpr)?
+      ("GROUP BY" {GroupingColumnRef ","}+ )?
+      ( "HAVING" CondExpr)?
+      -> TableExpr {cons("From")}
+
+    ColumnRef               -> GroupingColumnRef
+    ColumnRef CollateClause -> GroupingColumnRef {cons("Collate")}
+
+  %%%
+   %% Table references
+   %%%
+  context-free syntax
+    Table (As? RangeVar ( "(" {ColumnName ","}+ ")")? )?          -> TableRef {cons("TableRef")}
+    "(" QueryExpr ")" As? RangeVar ( "(" {ColumnName ","}+ ")" )? -> TableRef {cons("TableRef")}
     JoinTableExpr -> TableRef
 
-    Table (OptionalAs RangeVar ( "(" {Column ","}+ ")")? )?
-      -> TableRef {cons("TableRef")}
 
-    "(" TableExpr ")" OptionalAs RangeVar ( "(" {Column ","}+ ")" )?
-      -> TableRef {cons("TableRef")}
-
-    JoinTableExpr -> TableExpr
-
-    TableExpr "UNION"     DupElim? TableExpr -> TableExpr {cons("Union")}
-    TableExpr "EXCEPT"    DupElim? TableExpr -> TableExpr {cons("Except")}
-    TableExpr "INTERSECT" DupElim? TableExpr -> TableExpr {cons("Intersect")}
-
-    "(" TableExpr ")" -> TableExpr {bracket}
-
+  %%%
+   %% Joined tables
+   %%%
+  context-free syntax
     TableRef "CROSS JOIN"                TableRef       -> JoinTableExpr {cons("CrossJoin")}
     TableRef "NATURAL" JoinType? "JOIN"  TableRef       -> JoinTableExpr {cons("NaturalJoin")}
 
-    TableRef  JoinType? "JOIN"  TableRef "ON" CondExpr -> JoinTableExpr {cons("JoinOn")}
-    TableRef  JoinType? "JOIN"  TableRef "USING" "(" {Column ","}+ ")" -> JoinTableExpr {cons("JoinUsing")}
+    TableRef  JoinType? "JOIN" TableRef JoinSpec -> JoinTableExpr {cons("Join")}
+
+    "ON" CondExpr                     -> JoinSpec {cons("On")}
+    "USING" "(" {ColumnName ","}+ ")" -> JoinSpec {cons("Using")}
+
 
     "INNER"       -> JoinType {cons("Inner")}
     "LEFT OUTER"  -> JoinType {cons("Left")}
@@ -38,18 +75,4 @@ exports
     "FULL OUTER"  -> JoinType {cons("Full")}
     "UNION"       -> JoinType {cons("Union")}
 
-    ValExpr -> RowConstructor
 
-    "SELECT" DupElim? {SelectItem ","}+
-      "FROM" {TableRef ","}+
-        ("WHERE" CondExpr)?
-          ("GROUP BY" {ColumnRef ","}+ )?
-            ( "HAVING" CondExpr)?
-      -> TableExpr {cons("Select")}
- 
-    ValExpr (OptionalAs Column)? -> SelectItem {cons("ColumnProject")}
-    (RangeVar ".")? "*" -> SelectItem {cons("WildcardProject")}
-
-    %% Ugh, these should not be visible in the AST at all.
-    "AS" -> OptionalAs {cons("As")}
-         -> OptionalAs {cons("NoAs")}

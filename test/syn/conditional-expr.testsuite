@@ -27,3 +27,7 @@ test Like condition with escape
 
 test Like condition
   "foo NOT LIKE 'C%'" -> Like(_, Some(_), _, None())
+
+test In
+  "P.WEIGHT IN (12, 16, 17)" -> In(_, _, _)
+

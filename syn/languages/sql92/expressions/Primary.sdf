@@ -12,8 +12,8 @@ exports
     CaseExpr        -> E 
     CastSpec        -> E
 
-    "(" TableExpr ")" -> E {cons("SubQuery")}
-    "(" ValExpr ")"   -> E {bracket}
+    "(" QueryExpr ")" -> E {cons("Subquery")}
+    "(" ValExpr   ")" -> E {bracket}
 
     "COUNT(*)"                        -> E {cons("CountAll")}
     AggrFun "(" DupElim?  ValExpr ")" -> E {cons("Aggr")}

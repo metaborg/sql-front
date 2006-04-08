@@ -4,7 +4,7 @@ pkgdata_DATA = $(wildcard *.sql)
 EXTRA_DIST = $(wildcard *.testsuite) $(wildcard *.sql)
 
 TESTSUITES = \
-  table-exp.testsuite \
+  query-expr.testsuite \
   value-expr.testsuite \
   conditional-expr.testsuite
 
