@@ -3,4 +3,4 @@ imports
   languages/sql92/Main
 
 exports
-  context-free start-symbols ValExpr TableExpr
+  context-free start-symbols ValExpr TableExpr CondExpr
