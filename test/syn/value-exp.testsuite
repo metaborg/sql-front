@@ -1,14 +1,14 @@
 testsuite Value expressions
-topsort ValExp
+topsort ValExpr
 
 test
-  ['123 Main St.'] -> Lit(CharString("123 Main St."))
+  ['123 Main St.'] -> CharString("123 Main St.")
 
 test
-  ['Pig'] -> Lit(CharString("Pig"))
+  ['Pig'] -> CharString("Pig")
 
 test
-  ['honey don''t'] -> Lit(CharString("honey don''t"))
+  ['honey don''t'] -> CharString("honey don''t")
 
 test
   ['honey don't'] fails
@@ -20,34 +20,34 @@ test
   ['honey don''''t'] succeeds
 
 test
-  "4" -> Lit(ExactNum("4"))
+  "4" -> ExactNum("4")
 
 test
-  "7." -> Lit(ExactNum("7."))
+  "7." -> ExactNum("7.")
 
 test
-  "-95.7" -> Minus(Lit(ExactNum("95.7")))
+  "-95.7" -> Minus(ExactNum("95.7"))
 
 test
-  "+364.5" -> Plus(Lit(ExactNum("364.5")))
+  "+364.5" -> Plus(ExactNum("364.5"))
 
 test
-  "0.0007" -> Lit(ExactNum("0.0007"))
+  "0.0007" -> ExactNum("0.0007")
 
 test
-  ".6333" -> Lit(ExactNum(".6333"))
+  ".6333" -> ExactNum(".6333")
 
 test
-  "4E3" -> Lit(ApproxNum("4E3"))
+  "4E3" -> ApproxNum("4E3")
 
 test
-  "-95.7E46" -> Minus(Lit(ApproxNum("95.7E46")))
+  "-95.7E46" -> Minus(ApproxNum("95.7E46"))
 
 test
-  "+364E-5" -> Plus(Lit(ApproxNum("364E-5")))
+  "+364E-5" -> Plus(ApproxNum("364E-5"))
 
 test
-  "0.7E1" -> Lit(ApproxNum("0.7E1"))
+  "0.7E1" -> ApproxNum("0.7E1")
 
 test
-  "-.15E-15" -> Minus(Lit(ApproxNum(".15E-15")))
+  "-.15E-15" -> Minus(ApproxNum(".15E-15"))

@@ -1,5 +1,5 @@
 testsuite SQL Table Expressions
-topsort TableExp
+topsort TableExpr
 
 test Select basetable
   file test-1.sql succeeds
