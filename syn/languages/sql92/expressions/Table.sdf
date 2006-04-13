@@ -38,14 +38,14 @@ exports
    %% Table expression
    %%%
   context-free syntax
-    "FROM" {TableRef ","}+
-      ("WHERE" CondExpr)?
-      ("GROUP BY" {GroupingColumnRef ","}+ )?
-      ( "HAVING" CondExpr)?
-      -> TableExpr {cons("From")}
+    "FROM" {TableRef ","}+ WhereClause? GroupByClause? HavingClause? -> TableExpr {cons("From")}
 
     ColumnRef               -> GroupingColumnRef
     ColumnRef CollateClause -> GroupingColumnRef {cons("Collate")}
+    
+    "WHERE" CondExpr                     -> WhereClause   {cons("Where")}
+    "GROUP BY" {GroupingColumnRef ","}+  -> GroupByClause {cons("GroupBy")}
+    "HAVING" CondExpr                    -> HavingClause  {cons("Having")}
 
   %%%
    %% Table references

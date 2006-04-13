@@ -1,0 +1,33 @@
+module languages/sql92/Statements
+imports
+  languages/sql92/expressions/Table
+  languages/sql92/lexical/Whitespace  
+  languages/sql92/lexical/Keyword
+  languages/sql92/lexical/Literal  
+  
+exports
+  sorts Stm ExecStm DataStm
+  context-free syntax
+    ExecStm ";" -> Stm {cons("Stm")}
+
+    DataStm -> ExecStm
+    
+    DeleteStm    -> DataStm
+    SelectStm    -> DataStm
+    InsertStm    -> DataStm
+    UpdateStm    -> DataStm
+    TempTableDec -> DataStm
+    
+    QueryExpr OrderByClause? -> SelectStm {cons("SelectStm")}
+
+  context-free syntax
+    "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
+
+    %% @todo collate clause
+    SortKey OrderingSpec? -> SortSpec {cons("SortSpec")}
+    
+    ColumnName      -> SortKey
+    UnsignedInteger -> SortKey
+    
+    "ASC"  -> OrderingSpec {cons("Ascending")}
+    "DESC" -> OrderingSpec {cons("Descending")}    
