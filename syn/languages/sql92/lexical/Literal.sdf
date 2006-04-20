@@ -46,4 +46,4 @@ exports
     "'" <CharString-LEX> "\'" -> <CharStringLit-CF> {cons("CharString")}
 
   lexical syntax
-    (~[\'] | "\'\'")* -> CharString
+    ([A-Za-z0-9\ \"\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\_\|] | "\'\'")* -> CharString
