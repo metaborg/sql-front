@@ -12,7 +12,7 @@ exports
     UnsignedNumLit -> UnsignedLit
     GeneralLit     -> UnsignedLit
 
-    CharStringLit     -> GeneralLit
+    CharStringLit     -> GeneralLit {cons("CharString")}
     NatCharStringLit  -> GeneralLit
     BitStringLit      -> GeneralLit
     HexStringLit      -> GeneralLit
@@ -41,9 +41,8 @@ exports
     SignedInteger -/- [0-9]    
     
   %% @todo Support character set stuff?
-  sorts CharStringLit
-  syntax
-    "'" <CharString-LEX> "\'" -> <CharStringLit-CF> {cons("CharString")}
-
+  sorts CharStringLit CharRepr
   lexical syntax
-    ([A-Za-z0-9\ \"\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\_\|] | "\'\'")* -> CharString
+    "\'" CharRepr* "\'" -> CharStringLit
+    [A-Za-z0-9\ \"\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\_\|] -> CharRepr
+    "\'\'" -> CharRepr
