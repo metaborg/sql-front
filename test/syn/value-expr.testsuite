@@ -2,13 +2,13 @@ testsuite Value Expressions
 topsort ValExpr
 
 test
-  ['123 Main St.'] -> CharString("123 Main St.")
+  ['123 Main St.'] -> CharString("'123 Main St.'")
 
 test
-  ['Pig'] -> CharString("Pig")
+  ['Pig'] -> CharString("'Pig'")
 
 test
-  ['honey don''t'] -> CharString("honey don''t")
+  ['honey don''t'] -> CharString("'honey don''t'")
 
 test
   ['honey don't'] fails
