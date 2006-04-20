@@ -43,8 +43,8 @@ exports
   %% @todo Support character set stuff?
   sorts CharStringLit CharRepr
   syntax
-    "\'" <CharString-CF> "\'" -> CharStringLit {cons("CharString")}
-    
+    "\'" <CharString-CF> "\'" -> <CharStringLit-CF> {cons("CharString")}
+
   lexical syntax
     CharRepr* -> CharString
 
