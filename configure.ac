@@ -36,3 +36,4 @@ AC_CONFIG_FILES([
   test/syn/Makefile
 ])
 AC_OUTPUT
+
