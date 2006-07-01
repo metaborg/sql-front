@@ -16,4 +16,3 @@ MODS = \
   $(wildcard languages/sql92/*.sdf) \
   $(wildcard languages/sql92/lexical/*.sdf) \
   $(wildcard languages/sql92/expressions/*.sdf)
-  
