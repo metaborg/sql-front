@@ -1,6 +1,7 @@
 module auto-sql-front
 imports
-  libxtclib
+  libstratego-xtc
+  libstratego-lib
 
 strategies
 

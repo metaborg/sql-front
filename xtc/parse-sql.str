@@ -1,6 +1,7 @@
 module parse-sql
 imports
-  libxtclib
+  libstratego-xtc
+  libstratego-lib
 
 strategies
   
