@@ -10,7 +10,3 @@ strategies
 
   xtc-parse-sql =
       xtc-transform(!"sglri", !["-p", <xtc-find> "sql92.tbl"])
-
-      
-
-    
