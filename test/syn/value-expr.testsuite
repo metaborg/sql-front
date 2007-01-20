@@ -1,5 +1,6 @@
 testsuite Value Expressions
-topsort ValExpr
+options
+  topsort ValExpr
 
 test
   ['123 Main St.'] -> CharString("'123 Main St.'")

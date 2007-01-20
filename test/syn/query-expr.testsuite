@@ -1,5 +1,6 @@
 testsuite Query Expressions
-topsort QueryExpr
+options
+  topsort QueryExpr
 
 test Select basetable
   file test-1.sql succeeds

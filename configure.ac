@@ -13,11 +13,6 @@ test "x$prefix" = xNONE && prefix=$ac_default_prefix
 
 XT_SETUP
 XT_USE_XT_PACKAGES
-
-XT_PKG_ATERM
-XT_PKG_SDF
-XT_PKG_STRATEGOXT
-XT_SVN_REVISION
 XT_TERM_DEFINE
 
 AC_PROG_CC

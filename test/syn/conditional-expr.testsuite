@@ -1,5 +1,6 @@
 testsuite Conditional Expressions
-topsort CondExpr
+options
+  topsort CondExpr
 
 test And condition
   "1 < 2 AND 2 > 3" -> And(_, _)
