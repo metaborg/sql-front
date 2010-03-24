@@ -22,7 +22,7 @@ exports
    %%%
   context-free syntax
     RowConstructor CompOp RowConstructor -> CondExpr {cons("Comparison")}
-    RowConstructor Not? "BETWEEN" RowConstructor -> CondExpr {cons("Between")}
+    RowConstructor Not? "BETWEEN" RowConstructor "AND" RowConstructor -> CondExpr {cons("Between")}
     RowConstructor Not? "IN" "(" InPredVal ")" -> CondExpr {cons("In")}
     "NOT" -> Not {cons("Not")}
     QueryExpr       -> InPredVal

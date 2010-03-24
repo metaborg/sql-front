@@ -70,3 +70,6 @@ test Identifiers
 
 test Omit AS keyword
   file test-22.sql succeeds
+
+test BETWEEN 
+  file test-23.sql succeeds
