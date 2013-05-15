@@ -13,9 +13,10 @@ include/sql.rtree
 include/sql.ctree
 include/sql.ctree.dep
 include/sql.jar
+include/sql-java.jar
 editor/java/trans
 editor/SQL-*.generated.esv
-syntax/SQL*.generated.esv
+syntax/SQL*.generated.pp
 .settings/org.eclipse.jdt.core.prefs
 utils
 lib/*.generated.str
