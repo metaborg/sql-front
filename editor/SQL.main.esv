@@ -1,0 +1,16 @@
+module SQL.main
+
+imports SQL-Builders SQL-Refactorings SQL-Colorer SQL-Completions SQL-Folding SQL-Outliner SQL-References SQL-Syntax
+
+language General properties
+                  
+  name          : SQL
+  id            : org.metaborg.lang.sql
+  extends       : Root
+                  
+  description   : "Spoofax/IMP-generated editor for the SQL language"
+  url           : http://strategoxt.org
+                  
+  extensions    : sql
+  table         : include/SQL.tbl
+  start symbols : Stm

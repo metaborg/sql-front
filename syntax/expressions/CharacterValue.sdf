@@ -1,0 +1,44 @@
+%%%
+ %% @todo CollateClause
+ %% @todo QualifiedName
+ %%%
+module expressions/CharacterValue
+imports
+  lexical/Literal
+  expressions/Value
+  expressions/Primary[CharValExpr]
+  expressions/Primary[BitValExpr]
+
+exports
+  sorts CharValExpr StringValFun CharValFun
+  context-free syntax
+    CharValExpr "||" CharValExpr -> CharValExpr {cons("Concat"), left}
+    CharValExpr CollateClause    -> CharValExpr {cons("Collate")}
+    StringValFun                 -> CharValExpr
+
+    CharValFun -> StringValFun
+    BitValFun  -> StringValFun
+
+  context-free syntax
+    "SUBSTRING" "(" CharValExpr "FROM" NumValExpr ForClause? ")" -> CharValFun {cons("Substring")}
+    "FOR" NumValExpr -> ForClause {cons("For")}
+
+    "UPPER" "(" CharValExpr ")" -> CharValFun {cons("Upper")}
+    "LOWER" "(" CharValExpr ")" -> CharValFun {cons("Lower")}
+
+    "CONVERT"   "(" CharValExpr "USING" QualifiedName ")" -> CharValFun {cons("Convert")}
+    "TRANSLATE" "(" CharValExpr "USING" QualifiedName ")" -> CharValFun {cons("Translate")}
+
+    "TRIM" "(" TrimOp? CharValExpr ")" -> CharValFun {cons("Trim")}
+
+    TrimSpec? CharValExpr? "FROM" -> TrimOp {cons("TrimOp")}
+    "LEADING"  -> TrimSpec {cons("Leading")}
+    "TRAILING" -> TrimSpec {cons("Trailing")}
+    "BOTH"     -> TrimSpec {cons("Both")}
+
+  %% @todo isn't the SUBSTRING amb?
+  sorts BitValFun BitValExpr
+  context-free syntax
+    "SUBSTRING" "("  BitValExpr "FROM" NumValExpr ForClause? ")" -> BitValFun {cons("Substring")}
+    BitValExpr "||" BitValExpr -> BitValExpr {cons("Concat"), left}
+    StringValFun -> BitValExpr

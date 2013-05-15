@@ -1,6 +1,0 @@
-module Sql92Testing
-imports
-  languages/sql92/Main
-
-exports
-  context-free start-symbols ValExpr QueryExpr CondExpr Stm DataStm SelectStm

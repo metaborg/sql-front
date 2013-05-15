@@ -1,0 +1,33 @@
+module Statements
+imports
+  expressions/Table
+  lexical/Whitespace  
+  lexical/Keyword
+  lexical/Literal  
+  
+exports
+  sorts Stm ExecStm DataStm
+  context-free syntax
+    ExecStm ";" -> Stm {cons("Stm")}
+
+    DataStm -> ExecStm
+    
+    DeleteStm    -> DataStm
+    SelectStm    -> DataStm
+    InsertStm    -> DataStm
+    UpdateStm    -> DataStm
+    TempTableDec -> DataStm
+    
+    QueryExpr OrderByClause? -> SelectStm {cons("SelectStm")}
+
+  context-free syntax
+    "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
+
+    %% @todo collate clause
+    SortKey OrderingSpec? -> SortSpec {cons("SortSpec")}
+    
+    ColumnName      -> SortKey
+    UnsignedInteger -> SortKey
+    
+    "ASC"  -> OrderingSpec {cons("Ascending")}
+    "DESC" -> OrderingSpec {cons("Descending")}    

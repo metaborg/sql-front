@@ -1,3 +1,0 @@
-module languages/sql92/Main
-imports
-  languages/sql92/Statements

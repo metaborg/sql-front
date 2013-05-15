@@ -1,0 +1,22 @@
+module expressions/Case
+imports
+  lexical/Literal
+  expressions/Value
+
+exports
+  sorts CaseExpr
+  context-free syntax
+    "NULLIF"   "(" ValExpr "," ValExpr ")" -> CaseExpr {cons("NullIf")}
+    "COALESCE" "(" {ValExpr ","}+      ")" -> CaseExpr {cons("Coalesce")}
+
+    "CASE" ValExpr SimpleWhenClause+ ElseClause? "END" -> CaseExpr {cons("SimpleCase")}
+    "CASE"       SearchedWhenClause+ ElseClause? "END" -> CaseExpr {cons("SearchedCase")}
+
+  sorts SimpleWhenClause SearchedWhenClause ElseClause ResultExpr
+  context-free syntax
+    "WHEN" ValExpr  "THEN" ResultExpr -> SimpleWhenClause {cons("WhenClause")}
+    "WHEN" CondExpr "THEN" ResultExpr -> SearchedWhenClause {cons("WhenClause")}
+
+    "ELSE" ResultExpr -> ElseClause {cons("ElseClause")}
+    "NULL"  -> ResultExpr {cons("Null")}
+    ValExpr -> ResultExpr

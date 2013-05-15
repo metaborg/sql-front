@@ -1,0 +1,35 @@
+module expressions/Value
+imports
+  Misc
+  lexical/Literal
+  expressions/Primary[NumValExpr]
+  expressions/ValueSpecification
+
+exports
+  sorts NumValExpr ValExpr
+  context-free syntax
+    NumValExpr -> ValExpr
+
+    "+" NumValExpr -> NumValExpr {cons("Plus")}
+    "-" NumValExpr -> NumValExpr {cons("Minus")}
+    
+    "(" NumValExpr ")" -> NumValExpr {bracket} 
+    NumValExpr "*" NumValExpr -> NumValExpr {left, cons("Mul")}
+    NumValExpr "/" NumValExpr -> NumValExpr {left, cons("Div")}
+
+    NumValExpr "+" NumValExpr -> NumValExpr {left, cons("Plus")}
+    NumValExpr "-" NumValExpr -> NumValExpr {left, cons("Min")}
+ 
+  context-free priorities
+      {
+        "+" NumValExpr -> NumValExpr
+        "-" NumValExpr -> NumValExpr
+      }
+    > {left:
+        NumValExpr "*" NumValExpr -> NumValExpr
+        NumValExpr "/" NumValExpr -> NumValExpr
+      } 
+    > {left:
+        NumValExpr "+" NumValExpr -> NumValExpr
+        NumValExpr "-" NumValExpr -> NumValExpr
+      }

@@ -1,0 +1,32 @@
+module expressions/ValueSpecification
+imports
+  lexical/Literal
+
+exports
+  sorts
+    UnsignedValSpec
+    GeneralValSpec
+    DynParamSpec
+    VarSpec
+    IndicatorVar
+    VarName
+    VarName
+    
+  context-free syntax
+    UnsignedLit    -> UnsignedValSpec
+    GeneralValSpec -> UnsignedValSpec
+
+    DynParamSpec   -> GeneralValSpec
+    VarSpec        -> GeneralValSpec
+    "USER"         -> GeneralValSpec {cons("User")}
+    "CURRENT_USER" -> GeneralValSpec {cons("CurrentUser")}
+    "SESSION_USER" -> GeneralValSpec {cons("SessionUser")}
+    "SYSTEM_USER"  -> GeneralValSpec {cons("SystemUser")}
+    "VALUE"        -> GeneralValSpec {cons("Value")}
+
+    "?" -> DynParamSpec  {cons("DynParam")}
+
+    VarName Indicator?  -> VarSpec {cons("varSpec")}
+    "INDICATOR" VarName -> IndicatorVar {cons("Indicator")}
+    ":" HostId -> VarName {cons("HostVar")}
+    ":" Id     -> VarName {cons("Var")}

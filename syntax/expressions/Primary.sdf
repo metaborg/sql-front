@@ -1,0 +1,25 @@
+module expressions/Primary[E]
+imports
+  lexical/Literal
+  expressions/Case
+  expressions/Cast
+
+exports
+  sorts AggrFun
+  context-free syntax
+    UnsignedValSpec -> E
+    ColumnRef       -> E
+    CaseExpr        -> E 
+    CastSpec        -> E
+
+    "(" QueryExpr ")" -> E {cons("Subquery")}
+    "(" ValExpr   ")" -> E {bracket}
+
+    "COUNT(*)"                        -> E {cons("CountAll")}
+    AggrFun "(" DupElim?  ValExpr ")" -> E {cons("Aggr")}
+
+    "AVG"   -> AggrFun {cons("Avg")  }
+    "MAX"   -> AggrFun {cons("Max")  }
+    "MIN"   -> AggrFun {cons("Min")  }
+    "SUM"   -> AggrFun {cons("Sum")  }
+    "COUNT" -> AggrFun {cons("Count")}

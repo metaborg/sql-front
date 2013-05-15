@@ -1,0 +1,66 @@
+module expressions/Conditional
+imports
+  expressions/Table
+  expressions/Value
+  expressions/CharacterValue
+ 
+exports
+  sorts CondExpr
+  context-free syntax
+    CondExpr "AND" CondExpr -> CondExpr {left, cons("And")} 
+    CondExpr "OR"  CondExpr -> CondExpr {left, cons("Or")} 
+    "NOT" CondExpr          -> CondExpr {cons("Not")} 
+    "(" CondExpr ")"        -> CondExpr {bracket} 
+
+  context-free priorities
+     "NOT" CondExpr           -> CondExpr
+    > CondExpr "AND" CondExpr -> CondExpr
+    > CondExpr "OR" CondExpr  -> CondExpr
+
+  %%%  
+   %% Predicates
+   %%%
+  context-free syntax
+    RowConstructor CompOp RowConstructor -> CondExpr {cons("Comparison")}
+    RowConstructor Not? "BETWEEN" RowConstructor "AND" RowConstructor -> CondExpr {cons("Between")}
+    RowConstructor Not? "IN" "(" InPredVal ")" -> CondExpr {cons("In")}
+    "NOT" -> Not {cons("Not")}
+    QueryExpr       -> InPredVal
+    {ValExpr ","}+  -> InPredVal {cons("Values")}
+
+    CharValExpr Not? "LIKE" CharValExpr EscapeClause? -> CondExpr {cons("Like")}
+    "ESCAPE" CharValExpr? -> EscapeClause {cons("Escape")}
+
+    "IS" Not? "NULL" -> CondExpr {cons("IsNull")}
+
+    RowConstructor CompOp Quantifier "(" QueryExpr ")" -> CondExpr {cons("QuantifiedComparison")}
+    "ALL"  -> Quantifier {cons("All")}
+    "ANY"  -> Quantifier {cons("Any")}
+    "SOME" -> Quantifier {cons("Some")}
+    
+    "EXISTS" "(" QueryExpr ")" -> CondExpr {cons("Exists")}
+    "UNIQUE" "(" QueryExpr ")" -> CondExpr {cons("Unique")}
+
+    RowConstructor "MATCH" Unique? PartialOrFull? "(" QueryExpr ")" -> CondExpr {cons("Match")}
+    "UNIQUE"  -> Unique {cons("Unique")}
+    "PARTIAL" -> PartialOrFull {cons("Partial")}
+    "FULL"    -> PartialOrFull {cons("Full")}
+
+    RowConstructor "OVERLAPS" RowConstructor -> CondExpr {cons("Overlaps")}
+
+  context-free syntax
+    "="  -> CompOp {cons("EqOp")  }
+    "<"  -> CompOp {cons("LtOp")  }
+    "<=" -> CompOp {cons("LtEqOp")}
+    ">"  -> CompOp {cons("GtOp")  }
+    ">=" -> CompOp {cons("GtEqOp")}
+    "<>" -> CompOp {cons("LtGtOp")}
+
+  context-free syntax
+    ValExpr    -> RowConstructor
+    "NULL"     -> RowConstructor {cons("Null")}
+    "DEFAULT"  -> RowConstructor {cons("Default")}
+
+    "(" {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
+    "(" QueryExpr             ")" -> RowConstructor {cons("Subquery")}
+
