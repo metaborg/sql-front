@@ -6,9 +6,9 @@ imports
   lexical/Literal  
   
 exports
-  sorts Stm ExecStm DataStm
+  sorts Stms ExecStm DataStm
   context-free syntax
-    ExecStm ";" -> Stm {cons("Stm")}
+    {ExecStm ";" }+ ";" -> Stms {cons("Stms")}
 
     DataStm -> ExecStm
     
@@ -19,7 +19,34 @@ exports
     TempTableDec -> DataStm
     
     QueryExpr OrderByClause? -> SelectStm {cons("SelectStm")}
-
+    
+    "INSERT" "INTO" TableRef ValuesClause -> InsertStm {cons("InsertStm")}
+    "INSERT"        TableRef ValuesClause -> InsertStm {cons("InsertStm")}
+    
+    "VALUES" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    "VALUE"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    
+    "UPDATE" UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("UpdateStm")}
+    "UPDATE" UpdatableTables SetValues                             -> UpdateStm {cons("UpdateStm")}
+    
+    "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause? -> DeleteStm {cons("DeleteStm")}
+    "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
+    "DELETE" "FROM" {BaseTable ","}+ "USING" TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
+    
+    BaseTable     -> UpdatableTable
+    JoinTableExpr -> UpdatableTable
+    {UpdatableTable ","}+ -> UpdatableTables {cons("UpdatableTables")}
+    
+    SetClause WhereClause? -> SetValues {cons("SetValues")}
+    
+    "SET" {(ColumnName "=" RowValue) ","}+ -> SetClause {cons("SetClause")}
+    
+    "(" {RowValue ","}* ")" -> RowValues {cons("RowValues")}
+    
+    
+    
+    UnsignedLit -> RowValue
+    "DEFAULT" -> RowValue {cons("Default")}
   context-free syntax
     "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
 

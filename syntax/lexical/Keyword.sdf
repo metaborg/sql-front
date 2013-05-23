@@ -9,6 +9,7 @@ exports
     "BY"        -> ReservedKeyword 
     "CROSS"     -> ReservedKeyword 
 
+    "DEFAULT" |
     "DISTINCT"  -> ReservedKeyword 
 
     "FROM" |
@@ -19,11 +20,14 @@ exports
 
     "IN"    |
     "INNER" |
-    "INTERSECT" -> ReservedKeyword 
+    "INSERT"|
+    "INTERSECT" |
+    "INTO"      -> ReservedKeyword 
 
     "JOIN"      -> ReservedKeyword 
 
     "LIKE" |
+    "LIMIT"|
     "LEFT"      -> ReservedKeyword 
 
     "SELECT"    -> ReservedKeyword 
@@ -43,9 +47,16 @@ exports
     "RIGHT"     -> ReservedKeyword 
 
     "SELECT" |
+    "SET"    |
     "SUM"       -> ReservedKeyword 
-
+    
+    "UPDATE"    -> ReservedKeyword
+    
+    "VALUE"  |
+    "VALUES"    -> ReservedKeyword
+    
     "WIDTH"     -> ReservedKeyword 
+   
 
   lexical restrictions
     %% TODO: fix this

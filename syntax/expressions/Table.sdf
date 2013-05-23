@@ -12,14 +12,14 @@ exports
     "(" QueryExpr ")" -> QueryExpr {bracket}
 
     QueryExpr "UNION"     All? Corresponding? QueryExpr -> QueryExpr {cons("Union")}
-    QueryExpr "EXCEPT"    All? Corresponding? QueryExpr -> QueryExpr {cons("Except")}
-    QueryExpr "INTERSECT" All? Corresponding? QueryExpr -> QueryExpr {cons("Intersect")}
+    %% QueryExpr "EXCEPT"    All? Corresponding? QueryExpr -> QueryExpr {cons("Except")}
+    %% QueryExpr "INTERSECT" All? Corresponding? QueryExpr -> QueryExpr {cons("Intersect")}
     "ALL" -> All {cons("All")} 
     "CORRESPONDING" ByClause?      -> Corresponding {cons("Corresponding")}
     "BY" "(" {ColumnName ","}+ ")" -> ByClause      {cons("By")}
 
-    "VALUES" {RowConstructor ","}+  -> QueryExpr {cons("Values")}
-    "TABLE" TableName               -> QueryExpr {cons("Table")}
+    %% "VALUES" {RowConstructor ","}+  -> QueryExpr {cons("Values")}
+    %% "TABLE" TableName               -> QueryExpr {cons("Table")}
 
   %%%
    %% Query specification
@@ -38,7 +38,7 @@ exports
    %% Table expression
    %%%
   context-free syntax
-    "FROM" {TableRef ","}+ WhereClause? GroupByClause? HavingClause? -> TableExpr {cons("From")}
+    "FROM" {TableRef ","}+ WhereClause? GroupByClause? HavingClause? LimitClause? -> TableExpr {cons("From")}
 
     ColumnRef               -> GroupingColumnRef
     ColumnRef CollateClause -> GroupingColumnRef {cons("Collate")}
@@ -46,6 +46,7 @@ exports
     "WHERE" CondExpr                     -> WhereClause   {cons("Where")}
     "GROUP BY" {GroupingColumnRef ","}+  -> GroupByClause {cons("GroupBy")}
     "HAVING" CondExpr                    -> HavingClause  {cons("Having")}
+    "LIMIT" UnsignedInteger              -> LimitClause   {cons("Limit")}
 
   %%%
    %% Table references

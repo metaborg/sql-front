@@ -13,4 +13,4 @@ language General properties
                   
   extensions    : sql
   table         : include/SQL.tbl
-  start symbols : Stm
+  start symbols : Stms
