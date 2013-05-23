@@ -11,51 +11,63 @@ exports
     JoinTableExpr     -> QueryExpr
     "(" QueryExpr ")" -> QueryExpr {bracket}
 
-    QueryExpr "UNION"     All? Corresponding? QueryExpr -> QueryExpr {cons("Union")}
-    %% QueryExpr "EXCEPT"    All? Corresponding? QueryExpr -> QueryExpr {cons("Except")}
-    %% QueryExpr "INTERSECT" All? Corresponding? QueryExpr -> QueryExpr {cons("Intersect")}
-    "ALL" -> All {cons("All")} 
-    "CORRESPONDING" ByClause?      -> Corresponding {cons("Corresponding")}
-    "BY" "(" {ColumnName ","}+ ")" -> ByClause      {cons("By")}
-
-    %% "VALUES" {RowConstructor ","}+  -> QueryExpr {cons("Values")}
-    %% "TABLE" TableName               -> QueryExpr {cons("Table")}
+    QueryExpr "UNION"       QueryExpr -> QueryExpr {cons("Union")}
+    QueryExpr "UNION" "ALL" QueryExpr -> QueryExpr {cons("UnionAll")}
 
   %%%
    %% Query specification
    %%%  
   context-free syntax
-    "SELECT" SetQuantifier? {SelectItem ","}+ TableExpr -> QueryExpr {cons("Select")}
+    "SELECT" SetQuantifier? {SelectItem ","}+
+	    FromClause 
+	    GroupByClause? 
+	    HavingClause? 
+	    OrderByClause?
+	    LimitClause? -> QueryExpr {cons("Select")}
+	
 
-
-    ValExpr (As? ColumnName)? -> SelectItem {cons("ColumnProject")}
-    (RangeVar ".")? "*"     -> SelectItem {cons("WildcardProject")}
-
-    %% Ugh, these should not be visible in the AST at all.
-    "AS" -> As {cons("As")}
+    ValExpr ColumnAs?   -> SelectItem {cons("ColumnProject")}
+    (RangeVar ".")? "*" -> SelectItem {cons("WildcardProject")}
+    
+    "AS" ColumnName -> ColumnAs {cons("As")}
+         ColumnName -> ColumnAs {cons("As")}
 
   %%%
    %% Table expression
    %%%
   context-free syntax
-    "FROM" {TableRef ","}+ WhereClause? GroupByClause? HavingClause? LimitClause? -> TableExpr {cons("From")}
+    "FROM" {TableRef ","}+ -> FromClause {cons("From")}
 
     ColumnRef               -> GroupingColumnRef
-    ColumnRef CollateClause -> GroupingColumnRef {cons("Collate")}
     
     "WHERE" CondExpr                     -> WhereClause   {cons("Where")}
     "GROUP BY" {GroupingColumnRef ","}+  -> GroupByClause {cons("GroupBy")}
     "HAVING" CondExpr                    -> HavingClause  {cons("Having")}
     "LIMIT" UnsignedInteger              -> LimitClause   {cons("Limit")}
+    
+  context-free syntax
+    "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
+    
+    SortKey OrderingSpec? -> SortSpec {cons("SortSpec")}
+    
+    ColumnName      -> SortKey
+    UnsignedInteger -> SortKey
+    
+    "ASC"  -> OrderingSpec {cons("Ascending")}
+    "DESC" -> OrderingSpec {cons("Descending")}
 
   %%%
    %% Table references
    %%%
   context-free syntax
-    Table (As? RangeVar ( "(" {ColumnName ","}+ ")")? )?          -> TableRef {cons("TableRef")}
-    "(" QueryExpr ")" As? RangeVar ( "(" {ColumnName ","}+ ")" )? -> TableRef {cons("TableRef")}
-    JoinTableExpr -> TableRef
+    Table             TableAs? -> TableRef {cons("TableRef")}
+    "(" QueryExpr ")" TableAs  -> TableRef {cons("TableRef")}
+    JoinTableExpr              -> TableRef
+    
+    "AS" RangeVar -> TableAs {cons("As")}
+         RangeVar -> TableAs {cons("As")}
 
+	%% "(" {ColumnName ","}+ ")" -> AliasCols {cons("AliasCols"), bracket}
 
   %%%
    %% Joined tables

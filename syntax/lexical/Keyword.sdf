@@ -3,7 +3,8 @@ exports
   sorts ReservedKeyword
 
   lexical syntax
-    "AND"   |
+    "AND" |
+    "AS"  |
     "AVG"       -> ReservedKeyword
 
     "BY"        -> ReservedKeyword 
@@ -18,9 +19,9 @@ exports
     "GROUP"     -> ReservedKeyword 
     "HAVING"    -> ReservedKeyword 
 
-    "IN"    |
-    "INNER" |
-    "INSERT"|
+    "IN"        |
+    "INNER"     |
+    "INSERT"    |
     "INTERSECT" |
     "INTO"      -> ReservedKeyword 
 
@@ -35,8 +36,8 @@ exports
     "MAX"   |
     "MIN"       -> ReservedKeyword 
 
-    "NATURAL" |
-    "NOT"   |
+    "NATURAL"|
+    "NOT"    |
     "NULL"      -> ReservedKeyword 
 
     "ON"    |

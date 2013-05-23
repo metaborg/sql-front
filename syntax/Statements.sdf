@@ -18,7 +18,7 @@ exports
     UpdateStm    -> DataStm
     TempTableDec -> DataStm
     
-    QueryExpr OrderByClause? -> SelectStm {cons("SelectStm")}
+    QueryExpr -> SelectStm {cons("SelectStm")}
     
     "INSERT" "INTO" TableRef ValuesClause -> InsertStm {cons("InsertStm")}
     "INSERT"        TableRef ValuesClause -> InsertStm {cons("InsertStm")}
@@ -43,18 +43,5 @@ exports
     
     "(" {RowValue ","}* ")" -> RowValues {cons("RowValues")}
     
-    
-    
     UnsignedLit -> RowValue
-    "DEFAULT" -> RowValue {cons("Default")}
-  context-free syntax
-    "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
-
-    %% @todo collate clause
-    SortKey OrderingSpec? -> SortSpec {cons("SortSpec")}
-    
-    ColumnName      -> SortKey
-    UnsignedInteger -> SortKey
-    
-    "ASC"  -> OrderingSpec {cons("Ascending")}
-    "DESC" -> OrderingSpec {cons("Descending")}    
+    "DEFAULT"   -> RowValue {cons("Default")}    

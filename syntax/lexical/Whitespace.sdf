@@ -1,7 +1,7 @@
 module lexical/Whitespace
 exports
   lexical syntax
-    [\ \t\n\r] -> LAYOUT
+    [\ \t\n\r]+ -> LAYOUT
 
   context-free restrictions
     LAYOUT? -/- [\ \t\n\r]
