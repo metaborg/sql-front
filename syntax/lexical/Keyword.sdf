@@ -18,10 +18,11 @@ exports
 
     "GROUP"     -> ReservedKeyword 
     "HAVING"    -> ReservedKeyword 
-
-    "IN"        |
-    "INNER"     |
-    "INSERT"    |
+    
+    "IGNORE"|
+    "IN"    |
+    "INNER" |
+    "INSERT"|
     "INTERSECT" |
     "INTO"      -> ReservedKeyword 
 

@@ -1,1 +1,1 @@
-SELECT * FROM Book
+INSERT INTO IGNORE afdeling VALUES ();

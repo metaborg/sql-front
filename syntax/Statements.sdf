@@ -34,9 +34,10 @@ exports
     %% Data statements
     QueryExpr -> SelectStm {cons("SelectStm")}
     
-    "INSERT" "INTO" TableRef ValuesClause -> InsertStm {cons("InsertStm")}
-    "INSERT"        TableRef ValuesClause -> InsertStm {cons("InsertStm")}
+    "INSERT" IgnoreClause? "INTO" TableRef ValuesClause -> InsertStm {cons("InsertStm")}
+    "INSERT" IgnoreClause?        TableRef ValuesClause -> InsertStm {cons("InsertStm")}
     
+    "IGNORE" -> IgnoreClause {cons("Ignore")}
     "VALUES" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
     "VALUE"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
     
