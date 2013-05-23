@@ -10,14 +10,28 @@ exports
   context-free syntax
     {ExecStm ";" }+ ";" -> Stms {cons("Stms")}
 
-    DataStm -> ExecStm
+    DataStm     -> ExecStm
+    DataDefStm  -> ExecStm
+    
+    CreateViewStm -> DataDefStm
+    DropViewStm   -> DataDefStm
     
     DeleteStm    -> DataStm
     SelectStm    -> DataStm
     InsertStm    -> DataStm
     UpdateStm    -> DataStm
-    TempTableDec -> DataStm
     
+    %% Data definition statements
+    "CREATE" OrReplaceClause? "VIEW" ViewName ColumnNames? "AS" SelectStm -> CreateViewStm {cons("CreateViewStm")}
+    "DROP VIEW" IfExistsClause? {ViewName ","}+                           -> DropViewStm {cons("DropViewStm")}
+    
+    BaseTable                 -> ViewName {cons("ViewName")}
+    "OR" "REPLACE"            -> OrReplaceClause {cons("OrReplace")}
+    "IF" "EXISTS"             -> IfExistsClause {cons("IfExists")}
+    "(" {ColumnName ","}* ")" -> ColumnNames {cons("ColumnNames")}
+    
+    
+    %% Data statements
     QueryExpr OrderByClause? -> SelectStm {cons("SelectStm")}
     
     "INSERT" "INTO" TableRef ValuesClause -> InsertStm {cons("InsertStm")}
@@ -33,8 +47,8 @@ exports
     "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
     "DELETE" "FROM" {BaseTable ","}+ "USING" TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
     
-    BaseTable     -> UpdatableTable
-    JoinTableExpr -> UpdatableTable
+    BaseTable             -> UpdatableTable
+    JoinTableExpr         -> UpdatableTable
     {UpdatableTable ","}+ -> UpdatableTables {cons("UpdatableTables")}
     
     SetClause WhereClause? -> SetValues {cons("SetValues")}
@@ -46,7 +60,7 @@ exports
     
     
     UnsignedLit -> RowValue
-    "DEFAULT" -> RowValue {cons("Default")}
+    "DEFAULT"   -> RowValue {cons("Default")}
   context-free syntax
     "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
 
