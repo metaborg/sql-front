@@ -17,5 +17,6 @@ exports
     RangeVar   -> ColumnQualifier
     Identifier -> ColumnQualifier {cons("AmbQualifier"), prefer}
 
-    "ALL"       -> SetQuantifier {cons("All")}
-    "DISTINCT"  -> SetQuantifier {cons("Distinct")}
+    "ALL"         -> SetQuantifier {cons("All")}
+    "DISTINCT"    -> SetQuantifier {cons("Distinct")}
+    "DISTINCTROW" -> SetQuantifier {cons("DistinctRow")}

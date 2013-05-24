@@ -8,7 +8,7 @@ imports
 exports
   sorts QueryExpr TableExpr RowConstructor
   context-free syntax
-    JoinTableExpr     -> QueryExpr
+    %%JoinTableExpr     -> QueryExpr
     "(" QueryExpr ")" -> QueryExpr {bracket}
 
     QueryExpr "UNION"       QueryExpr -> QueryExpr {cons("Union")}
@@ -18,16 +18,26 @@ exports
    %% Query specification
    %%%  
   context-free syntax
-    "SELECT" SetQuantifier? {SelectItem ","}+
-	    FromClause 
+    "SELECT" SetQuantifier?
+      StraightJoinClause?
+      ResultSizePrediction?
+      {SelectItem ","}+
+	    FromClause
+	    WhereClause? 
 	    GroupByClause? 
 	    HavingClause? 
 	    OrderByClause?
-	    LimitClause? -> QueryExpr {cons("Select")}
+	    SelectLimitClause? -> QueryExpr {cons("Select")}
 	
-
+    "STRAIGHT_JOIN" -> StraightJoinClause {cons("StraightJoin")}
+    
+    "SQL_SMALL_RESULT" -> ResultSizePrediction {cons("SqlSmallResult")}
+    "SQL_BIG_RESULT"   -> ResultSizePrediction {cons("SqlBigResult")}
+    
     ValExpr ColumnAs?   -> SelectItem {cons("ColumnProject")}
     (RangeVar ".")? "*" -> SelectItem {cons("WildcardProject")}
+    
+    
     
     "AS" ColumnName -> ColumnAs {cons("As")}
          ColumnName -> ColumnAs {cons("As")}
@@ -40,10 +50,17 @@ exports
 
     ColumnRef               -> GroupingColumnRef
     
-    "WHERE" CondExpr                     -> WhereClause   {cons("Where")}
-    "GROUP BY" {GroupingColumnRef ","}+  -> GroupByClause {cons("GroupBy")}
-    "HAVING" CondExpr                    -> HavingClause  {cons("Having")}
-    "LIMIT" UnsignedInteger              -> LimitClause   {cons("Limit")}
+    "WHERE" CondExpr                              -> WhereClause   {cons("Where")}
+    %%"GROUP BY" {GroupingColumnRef ","}  -> GroupByClause {cons("GroupBy")}
+    "GROUP BY" {SortSpec ","}+ WithRollupClause?  -> GroupByClause {cons("GroupBy")}
+    "HAVING" CondExpr                             -> HavingClause  {cons("Having")}
+    "LIMIT" UnsignedInteger                       -> LimitClause   {cons("Limit")}
+    
+    LimitClause                                      -> SelectLimitClause {cons("Limit")}
+    "LIMIT" UnsignedInteger "OFFSET" UnsignedInteger -> SelectLimitClause {cons("Limit")}
+    "LIMIT" UnsignedInteger "," UnsignedInteger      -> SelectLimitClause {cons("Limit")}
+    
+    "WITH" "ROLLUP" -> WithRollupClause {cons("WithRollup")}
     
   context-free syntax
     "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
@@ -73,19 +90,20 @@ exports
    %% Joined tables
    %%%
   context-free syntax
-    TableRef "CROSS JOIN"                TableRef       -> JoinTableExpr {cons("CrossJoin")}
-    TableRef "NATURAL" JoinType? "JOIN"  TableRef       -> JoinTableExpr {cons("NaturalJoin")}
-
-    TableRef  JoinType? "JOIN" TableRef JoinSpec -> JoinTableExpr {cons("Join")}
-
+    TableRef "JOIN"                   TableRef JoinSpec?     -> JoinTableExpr {cons("Join")}
+    TableRef "CROSS JOIN"             TableRef JoinSpec?     -> JoinTableExpr {cons("CrossJoin")}
+    TableRef "INNER JOIN"             TableRef JoinSpec?     -> JoinTableExpr {cons("InnerJoin")}
+    TableRef "STRAIGHT_JOIN"          TableRef               -> JoinTableExpr {cons("StraightJoin")}
+    TableRef "STRAIGHT_JOIN"          TableRef "ON" CondExpr -> JoinTableExpr {cons("StraightJoinOn")}
+    TableRef  JoinType "JOIN"         TableRef JoinSpec      -> JoinTableExpr {cons("Join")}
+    TableRef  JoinType "NATURAL JOIN" TableRef               -> JoinTableExpr {cons("NaturalJoin")}
+    
     "ON" CondExpr                     -> JoinSpec {cons("On")}
     "USING" "(" {ColumnName ","}+ ")" -> JoinSpec {cons("Using")}
-
-
-    "INNER"       -> JoinType {cons("Inner")}
-    "LEFT OUTER"  -> JoinType {cons("Left")}
-    "RIGHT OUTER" -> JoinType {cons("Right")}
-    "FULL OUTER"  -> JoinType {cons("Full")}
-    "UNION"       -> JoinType {cons("Union")}
+    
+    "LEFT"        -> JoinType {cons("Left")}
+    "RIGHT"       -> JoinType {cons("Right")}
+    "LEFT OUTER"  -> JoinType {cons("LeftOuter")}
+    "RIGHT OUTER" -> JoinType {cons("RightOuter")}
 
 

@@ -7,11 +7,17 @@ exports
     "AS"  |
     "AVG"       -> ReservedKeyword
 
-    "BY"        -> ReservedKeyword 
+    "BY"        -> ReservedKeyword
+    
+    "CREATE"  | 
     "CROSS"     -> ReservedKeyword 
 
     "DEFAULT" |
-    "DISTINCT"  -> ReservedKeyword 
+    "DISTINCT"|
+    "DROP"    |
+    "DUPLICATE" -> ReservedKeyword 
+    
+    "EXISTS"    -> ReservedKeyword
 
     "FROM" |
     "FULL"      -> ReservedKeyword 
@@ -19,6 +25,7 @@ exports
     "GROUP"     -> ReservedKeyword 
     "HAVING"    -> ReservedKeyword 
     
+    "IF"    |
     "IGNORE"|
     "IN"    |
     "INNER" |
@@ -27,6 +34,8 @@ exports
     "INTO"      -> ReservedKeyword 
 
     "JOIN"      -> ReservedKeyword 
+    
+    "KEYS"      -> ReservedKeyword
 
     "LIKE" |
     "LIMIT"|
@@ -40,24 +49,32 @@ exports
     "NATURAL"|
     "NOT"    |
     "NULL"      -> ReservedKeyword 
-
+    
+    "OFFSET"|
     "ON"    |
     "OR"    |
     "ORDER" |
     "OUTER"     -> ReservedKeyword 
-
-    "RIGHT"     -> ReservedKeyword 
+    
+    "REPLACE"|
+    "RIGHT" |
+    "ROLLUP"    -> ReservedKeyword 
 
     "SELECT" |
     "SET"    |
+    "SQL_SMALL_RESULT" |
+    "SQL_BIG_RESULT" |
+    "STRAIGHT_JOIN"|
     "SUM"       -> ReservedKeyword 
     
     "UPDATE"    -> ReservedKeyword
     
     "VALUE"  |
-    "VALUES"    -> ReservedKeyword
+    "VALUES" |
+    "VIEW"      -> ReservedKeyword
     
-    "WIDTH"     -> ReservedKeyword 
+    "WIDTH"  |
+    "WITH"      -> ReservedKeyword 
    
 
   lexical restrictions

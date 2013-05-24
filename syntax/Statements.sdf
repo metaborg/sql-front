@@ -23,7 +23,7 @@ exports
     
     %% Data definition statements
     "CREATE" OrReplaceClause? "VIEW" ViewName ColumnNames? "AS" SelectStm -> CreateViewStm {cons("CreateViewStm")}
-    "DROP VIEW" IfExistsClause? {ViewName ","}+                           -> DropViewStm {cons("DropViewStm")}
+    "DROP" "VIEW" IfExistsClause? {ViewName ","}+                         -> DropViewStm {cons("DropViewStm")}
     
     BaseTable                 -> ViewName {cons("ViewName")}
     "OR" "REPLACE"            -> OrReplaceClause {cons("OrReplace")}
@@ -34,15 +34,16 @@ exports
     %% Data statements
     QueryExpr -> SelectStm {cons("SelectStm")}
     
-    "INSERT" IgnoreClause? "INTO" TableRef ValuesClause -> InsertStm {cons("InsertStm")}
-    "INSERT" IgnoreClause?        TableRef ValuesClause -> InsertStm {cons("InsertStm")}
-    
+    "INSERT" IgnoreClause? "INTO"? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?             -> InsertStm {cons("InsertStm")}
+    "INSERT" IgnoreClause? "INTO"? BaseTable "SET" {(ColumnName "=" RowValue) ","}+ OnDuplicateKeyClause? -> InsertStm {cons("InsertStm")}
+
     "IGNORE" -> IgnoreClause {cons("Ignore")}
     "VALUES" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
     "VALUE"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    "ON" "DUPLICATE" "KEYS" "UPDATE" {(ColumnName "=" RowValue) ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
     
-    "UPDATE" UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("UpdateStm")}
-    "UPDATE" UpdatableTables SetValues                             -> UpdateStm {cons("UpdateStm")}
+    "UPDATE" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("UpdateStm")}
+    "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("UpdateStm")}
     
     "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause? -> DeleteStm {cons("DeleteStm")}
     "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
@@ -56,7 +57,9 @@ exports
     
     "SET" {(ColumnName "=" RowValue) ","}+ -> SetClause {cons("SetClause")}
     
-    "(" {RowValue ","}* ")" -> RowValues {cons("RowValues")}
+    
+    "(" {RowValue   ","}* ")" -> RowValues {cons("RowValues")}
+    "(" {ColumnName ","}* ")" -> ColumnNames {cons("ColumnNames")}
     
     UnsignedLit -> RowValue
     "DEFAULT"   -> RowValue {cons("Default")}
