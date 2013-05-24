@@ -12,6 +12,7 @@ imports
   lib/compilation-library.generated
   lib/nbl-library.generated
   check
+  sql-shuffle
 
 rules // Analysis
   
