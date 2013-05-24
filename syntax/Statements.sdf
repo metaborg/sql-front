@@ -22,8 +22,8 @@ exports
     UpdateStm    -> DataStm
     
     %% Data definition statements
-    "CREATE" OrReplaceClause? "VIEW" ViewName ColumnNames? "AS" SelectStm -> CreateViewStm {cons("CreateViewStm")}
-    "DROP" "VIEW" IfExistsClause? {ViewName ","}+                         -> DropViewStm {cons("DropViewStm")}
+    "CREATE" OrReplaceClause? "VIEW" ViewName ColumnNames? "AS" SelectStm -> CreateViewStm {cons("CreateView")}
+    "DROP" "VIEW" IfExistsClause? {ViewName ","}+                         -> DropViewStm {cons("DropView")}
     
     BaseTable                 -> ViewName {cons("ViewName")}
     "OR" "REPLACE"            -> OrReplaceClause {cons("OrReplace")}
@@ -32,22 +32,22 @@ exports
     
     
     %% Data statements
-    QueryExpr -> SelectStm {cons("SelectStm")}
+    QueryExpr -> SelectStm %%{cons("SelectStm")}
     
-    "INSERT" IgnoreClause? "INTO"? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?             -> InsertStm {cons("InsertStm")}
-    "INSERT" IgnoreClause? "INTO"? BaseTable "SET" {(ColumnName "=" RowValue) ","}+ OnDuplicateKeyClause? -> InsertStm {cons("InsertStm")}
+    "INSERT" IgnoreClause? "INTO"? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?             -> InsertStm {cons("Insert")}
+    "INSERT" IgnoreClause? "INTO"? BaseTable "SET" {(ColumnName "=" RowValue) ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
 
     "IGNORE" -> IgnoreClause {cons("Ignore")}
     "VALUES" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
     "VALUE"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
     "ON" "DUPLICATE" "KEYS" "UPDATE" {(ColumnName "=" RowValue) ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
     
-    "UPDATE" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("UpdateStm")}
-    "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("UpdateStm")}
+    "UPDATE" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("Update")}
+    "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("Update")}
     
-    "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause? -> DeleteStm {cons("DeleteStm")}
-    "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
-    "DELETE" "FROM" {BaseTable ","}+ "USING" TableRef WhereClause?     -> DeleteStm {cons("DeleteStm")}
+    "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause? -> DeleteStm {cons("Delete")}
+    "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("Delete")}
+    "DELETE" "FROM" {BaseTable ","}+ "USING" TableRef WhereClause?     -> DeleteStm {cons("Delete")}
     
     BaseTable             -> UpdatableTable
     JoinTableExpr         -> UpdatableTable
