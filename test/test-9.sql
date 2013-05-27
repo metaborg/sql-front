@@ -1,1 +1,1 @@
-SELECT Title FROM Book
+SELECT Title FROM Book;
