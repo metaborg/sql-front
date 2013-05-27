@@ -90,13 +90,13 @@ exports
    %% Joined tables
    %%%
   context-free syntax
-    TableRef "JOIN"                   TableRef JoinSpec?     -> JoinTableExpr {cons("Join")}
-    TableRef "CROSS JOIN"             TableRef JoinSpec?     -> JoinTableExpr {cons("CrossJoin")}
-    TableRef "INNER JOIN"             TableRef JoinSpec?     -> JoinTableExpr {cons("InnerJoin")}
-    TableRef "STRAIGHT_JOIN"          TableRef               -> JoinTableExpr {cons("StraightJoin")}
-    TableRef "STRAIGHT_JOIN"          TableRef "ON" CondExpr -> JoinTableExpr {cons("StraightJoinOn")}
-    TableRef  JoinType "JOIN"         TableRef JoinSpec      -> JoinTableExpr {cons("Join")}
-    TableRef  JoinType "NATURAL JOIN" TableRef               -> JoinTableExpr {cons("NaturalJoin")}
+    TableRef "JOIN"                     TableRef JoinSpec?     -> JoinTableExpr {cons("Join")}
+    TableRef "CROSS JOIN"               TableRef JoinSpec?     -> JoinTableExpr {cons("CrossJoin")}
+    TableRef "INNER JOIN"               TableRef JoinSpec?     -> JoinTableExpr {cons("InnerJoin")}
+    TableRef "STRAIGHT_JOIN"            TableRef               -> JoinTableExpr {cons("StraightJoin")}
+    TableRef "STRAIGHT_JOIN"            TableRef "ON" CondExpr -> JoinTableExpr {cons("StraightJoinOn")}
+    TableRef           JoinType  "JOIN" TableRef JoinSpec      -> JoinTableExpr {cons("Join")}
+    TableRef "NATURAL" JoinType? "JOIN" TableRef               -> JoinTableExpr {cons("NaturalJoin")}
     
     "ON" CondExpr                     -> JoinSpec {cons("On")}
     "USING" "(" {ColumnName ","}+ ")" -> JoinSpec {cons("Using")}
