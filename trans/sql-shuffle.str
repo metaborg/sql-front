@@ -12,11 +12,14 @@ imports
   lib/nbl-library.generated
   
 rules
-
-  move-views:  (selected, position, Stms(ast), path, project-path) -> (filename, <pp-sql-string> Stms(ast')) 
-  	with
-  		createviews* := <filter(?CreateViewStm(_,_,_,_))> ast
-  	  ; body* := <filter(not(?CreateViewStm(_,_,_,_) <+ ?DropViewStm(_,_)))> ast
-  	  ; dropviews* := <filter(?DropViewStm(_,_))> ast 
-  	  ; ast' := [createviews*, body*, dropviews*]
-  	  ; filename := <guarantee-extension(|"sql-shuffle")> path
+	
+	clean-sql = id
+	
+// 
+//   move-views:  (selected, position, Stms(ast), path, project-path) -> (filename, <pp-sql-string> Stms(ast')) 
+//   	with
+//   		createviews* := <filter(?CreateViewStm(_,_,_,_))> ast
+//   	  ; body* := <filter(not(?CreateViewStm(_,_,_,_) <+ ?DropViewStm(_,_)))> ast
+//   	  ; dropviews* := <filter(?DropViewStm(_,_))> ast 
+//   	  ; ast' := [createviews*, body*, dropviews*]
+//   	  ; filename := <guarantee-extension(|"sql-shuffle")> path

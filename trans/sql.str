@@ -169,3 +169,11 @@ rules // Utility
     files -> None()
     with
       index-sequential-analyze-files(analyze)
+      
+rules // Actual useful rules
+  gen-clean-sql:
+    (_, _, ast, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"clean.sql")> path;
+      result   := <clean-sql;pp-sql-string> ast
+	
