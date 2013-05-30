@@ -1,0 +1,16 @@
+module sql2clean
+
+imports
+	include/SQL
+	lib/editor-common.generated
+	
+strategies
+	
+	sqlfile2clean(|uuid) =
+		?ifn;
+		parse-sql-file;
+		collect-all(?Select(_, _, _, _, _, _, _, _, _, _));
+		map(pp-sql-string);
+		![uuid|<id>]
+
+	
