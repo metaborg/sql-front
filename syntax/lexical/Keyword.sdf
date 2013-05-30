@@ -76,7 +76,16 @@ exports
     "WIDTH"  |
     "WITH"      -> ReservedKeyword 
    
-
+	
   lexical restrictions
-    %% TODO: fix this
-    ReservedKeyword -/- [a-zA-Z0-9\_\$]
+    "AND" "AS" "AVG" "BY" "CREATE" "CROSS" "DEFAULT" 
+    "DISTINCT" "DROP" "DUPLICATE" "EXISTS" "FROM" 
+    "FULL" "GROUP" "HAVING" "IF" "IGNORE" "IN" 
+    "INNER" "INSERT" "INTERSECT" "INTO" "JOIN" 
+    "KEYS" "LIKE" "LIMIT" "LEFT" "SELECT" "MAX" 
+    "MIN" "NATURAL" "NOT" "NULL" "OFFSET" "ON" "OR" 
+    "ORDER" "OUTER" "REPLACE" "RIGHT" "ROLLUP" 
+    "SELECT" "SET" "SQL_SMALL_RESULT" 
+    "SQL_BIG_RESULT" "STRAIGHT_JOIN" "SUM" "UPDATE" 
+    "VALUE" "VALUES" "VIEW" "WIDTH" "WITH" 
+    	-/- [a-zA-Z0-9\_\$]
