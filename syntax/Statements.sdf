@@ -8,10 +8,10 @@ imports
 exports
   sorts Stms ExecStm DataStm
   context-free syntax
-    {ExecStm ";" }+ ";" -> Stms {cons("Stms")}
+    ExecStm+ -> Stms {cons("Stms")}
 
-    DataStm     -> ExecStm
-    DataDefStm  -> ExecStm
+    DataStm    ";" -> ExecStm {cons("Stm")}
+    DataDefStm ";" -> ExecStm {cons("Stm")}
     
     CreateViewStm -> DataDefStm
     DropViewStm   -> DataDefStm

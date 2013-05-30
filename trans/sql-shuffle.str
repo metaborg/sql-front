@@ -12,9 +12,39 @@ imports
   lib/nbl-library.generated
   
 rules
-  clean-sql: Stms(ast) -> Stms(ast')
+  clean-sql: Stms(ast) -> Stms(<map(pack)> ast'')
   	with
-  		createviews* := <filter(?CreateView(_, _, _, _))> ast
-  	  ; body* := <filter(not(?CreateView(_,_,_,_) <+ ?DropView(_,_)))> ast
-  	  ; dropviews* := <filter(?DropView(_,_))> ast 
-  	  ; ast' := [createviews*, body*, dropviews*]
+  	    ast'        := <map(unpack)> ast
+  	  ; uuid        := "uuid_"
+  	  ; createViews := <filter(?CreateView(_, _, _, _))> ast'
+  	  ; body        := <filter(not(?CreateView(_,_,_,_) <+ ?DropView(_,_)))> ast'
+  	    
+  	  ; createViews' := <map(createView-rename(|uuid))> createViews
+  	    
+  	  ; createView-baseTables := <map(createView-baseTable)> createViews
+  	  ; body' := <topdown(try-uses-rename(|uuid,createView-baseTables))> body
+  	    
+  	  ; dropViews := <if(<equal>(createViews,[]), ![], ![DropView(None(), <map(extractNrename(|"uuid"))> createViews)])>
+  	  ; ast''     := <conc> (createViews', body', dropViews)
+  	    
+  	  ; eventualResult := (<map(pack;pp-sql-string)> createViews', <map(pack;pp-sql-string)> body', <map(pack;pp-sql-string)> dropViews)
+  
+  unpack: Stm(s) -> s
+  pack:   s -> Stm(s)
+  	    
+  createView-baseTable: CreateView(_,ViewName(baseTable),_,_) -> baseTable
+  
+  createView-rename(|uuid): CreateView(a,vn,b,c) -> CreateView(a,vn',b,c)
+  	with vn' := <viewName-rename(|uuid)> vn
+  	
+  extractNrename(|uuid): CreateView(_,vn,_,_) -> vn'
+  	with vn' := <viewName-rename(|uuid)> vn
+  
+  viewName-rename(|uuid): ViewName(BaseTable(b,viewName)) -> ViewName(BaseTable(b,viewName'))
+  	with viewName' := <conc-strings> (uuid, viewName)
+  
+  viewName-uses-rename(|uuid,baseTables): BaseTable(a,name) -> BaseTable(a,name')
+  	with name' := <if(<elem>(BaseTable(a,name), baseTables), <conc-strings>(uuid, name), !name)>
+
+strategies
+	try-uses-rename(|uuid,list) = topdown(try(viewName-uses-rename(|uuid,list)))
