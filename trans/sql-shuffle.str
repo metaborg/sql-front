@@ -2,20 +2,18 @@ module sql-shuffle
 
 imports
   libstratego-lib
-  libstratego-gpp
-  libstratego-aterm
-  include/SQL
   lib/editor-common.generated
-  lib/index-library.generated
-  lib/analysis-library.generated
-  lib/analysis-library-internal.generated
-  lib/nbl-library.generated
+  include/SQL
   
 rules
-  clean-sql: Stms(ast) -> Stms(<map(pack)> ast'')
+	clean-sql: stms -> Stms(<concat> result)
+		with
+	    	l := <clean-sql-helper(|"uuid")> stms
+	  	  ; result := <map(map(pack;pp-sql-string))> l
+	  	    
+  clean-sql-helper(|uuid): Stms(ast) -> [createViews', body', dropViews]
   	with
   	    ast'        := <map(unpack)> ast
-  	  ; uuid        := "uuid_"
   	  ; createViews := <filter(?CreateView(_, _, _, _))> ast'
   	  ; body        := <filter(not(?CreateView(_,_,_,_) <+ ?DropView(_,_)))> ast'
   	    
@@ -24,10 +22,7 @@ rules
   	  ; createView-baseTables := <map(createView-baseTable)> createViews
   	  ; body' := <topdown(try-uses-rename(|uuid,createView-baseTables))> body
   	    
-  	  ; dropViews := <if(<equal>(createViews,[]), ![], ![DropView(None(), <map(extractNrename(|"uuid"))> createViews)])>
-  	  ; ast''     := <conc> (createViews', body', dropViews)
-  	    
-  	  ; eventualResult := (<map(pack;pp-sql-string)> createViews', <map(pack;pp-sql-string)> body', <map(pack;pp-sql-string)> dropViews)
+  	  ; dropViews := <if(<equal>(createViews,[]), ![], ![DropView(None(), <map(extractNrename(|uuid))> createViews)])> 
   
   unpack: Stm(s) -> s
   pack:   s -> Stm(s)
