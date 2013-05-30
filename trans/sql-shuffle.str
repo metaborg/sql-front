@@ -6,10 +6,10 @@ imports
   include/SQL
   
 rules
-	clean-sql: stms -> Stms(<concat> result)
+	clean-sql: stms -> Stms(result)
 		with
 	    	l := <clean-sql-helper(|"uuid")> stms
-	  	  ; result := <map(map(pack;pp-sql-string))> l
+	  	  ; result := <concat;map(pack)> l
 	  	    
   clean-sql-helper(|uuid): Stms(ast) -> [createViews', body', dropViews]
   	with
