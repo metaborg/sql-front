@@ -8,7 +8,7 @@ imports
 exports
   sorts Stms ExecStm DataStm
   context-free syntax
-    ExecStm+ -> Stms {cons("Stms")}
+    ExecStm* -> Stms {cons("Stms")}
 
     DataStm    ";" -> ExecStm {cons("Stm")}
     DataDefStm ";" -> ExecStm {cons("Stm")}

@@ -1,7 +1,7 @@
 %% Pretty printing table (see also SQL.generated.pp)
 [
    Stms                                  -- V[ _1 ],
-   Stms.1:iter                           -- _1,
+   Stms.1:iter-star                      -- _1,
    Stm                                   -- H hs=0[ H[ _1 ] KW[";"] ],
    
    From                                  -- KW["FROM"] _1,
