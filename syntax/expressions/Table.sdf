@@ -56,8 +56,8 @@ exports
     "HAVING" CondExpr                             -> HavingClause  {cons("Having")}
     "LIMIT" UnsignedInteger                       -> LimitClause   {cons("Limit")}
     
-    LimitClause                                      -> SelectLimitClause {cons("Limit")}
-    "LIMIT" UnsignedInteger "OFFSET" UnsignedInteger -> SelectLimitClause {cons("Limit")}
+    LimitClause                                      -> SelectLimitClause
+    "LIMIT" UnsignedInteger "OFFSET" UnsignedInteger -> SelectLimitClause {cons("LimitOffset")}
     "LIMIT" UnsignedInteger "," UnsignedInteger      -> SelectLimitClause {cons("Limit")}
     
     "WITH" "ROLLUP" -> WithRollupClause {cons("WithRollup")}
