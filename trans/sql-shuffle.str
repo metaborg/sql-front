@@ -20,7 +20,7 @@ rules
   	  ; createViews' := <map(createView-rename(|uuid))> createViews
   	    
   	  ; createView-baseTables := <map(createView-baseTable)> createViews
-  	  ; body' := <topdown(try-uses-rename(|uuid,createView-baseTables))> body
+  	  ; body' := <try-uses-rename(|uuid,createView-baseTables);try-limit-50> body
   	    
   	  ; dropViews := <if(<equal>(createViews,[]), ![], ![DropView(None(), <map(extractNrename(|uuid))> createViews)])> 
   
@@ -41,5 +41,17 @@ rules
   viewName-uses-rename(|uuid,baseTables): BaseTable(a,name) -> BaseTable(a,name')
   	with name' := <if(<elem>(BaseTable(a,name), baseTables), <conc-strings>(uuid, name), !name)>
 
+  limit-select: Select(a,b,c,d,e,f,g,h,i,None()) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit("50")))
+
+  limit-select: Select(a,b,c,d,e,f,g,h,i,Some(Limit(l))) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit(l')))
+  	with l' := <if(<leqS>(l,"50"), !l, !"50")>
+  	
+  limit-select: Select(a,b,c,d,e,f,g,h,i,Some(Limit(o,l))) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit(o,l')))
+  	with l' := <if(<leqS>(l,"50"), !l, !"50")>
+  	
+  limit-select: Select(a,b,c,d,e,f,g,h,i,Some(LimitOffset(l,o))) -> Select(a,b,c,d,e,f,g,h,i,Some(LimitOffset(l',o)))
+  	with l' := <if(<leqS>(l,"50"), !l, !"50")>
+
 strategies
 	try-uses-rename(|uuid,list) = topdown(try(viewName-uses-rename(|uuid,list)))
+	try-limit-50 = map(try(limit-select))
