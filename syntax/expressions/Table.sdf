@@ -77,9 +77,11 @@ exports
    %% Table references
    %%%
   context-free syntax
-    Table             TableAs? -> TableRef {cons("TableRef")}
-    "(" QueryExpr ")" TableAs  -> TableRef {cons("TableRef")}
-    JoinTableExpr              -> TableRef
+    Table    TableAs? -> TableRef {cons("TableRef")}
+    SubQuery TableAs  -> TableRef {cons("TableRef")}
+    JoinTableExpr     -> TableRef
+    
+    "(" QueryExpr ")" -> SubQuery {cons("SubQuery")}
     
     "AS" RangeVar -> TableAs {cons("As")}
          RangeVar -> TableAs {cons("As")}
