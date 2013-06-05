@@ -1,8 +1,13 @@
 module lexical/Whitespace
 exports
   lexical syntax
-    [\ \t\n\r]+ -> LAYOUT
-    "--" ~[\n]* [\n] -> LAYOUT
+    [\ \t\n\r]+              -> LAYOUT
+    "--" ~[\n]* ([\n] | Eof) -> Comment
+    Comment                  -> LAYOUT
+    
+                             -> Eof
 
   context-free restrictions
     LAYOUT? -/- [\ \t\n\r]
+    Eof     -/- ~[]
+    Comment -/- ~[\n\r]
