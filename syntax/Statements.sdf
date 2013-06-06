@@ -49,9 +49,9 @@ exports
     "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("Delete")}
     "DELETE" "FROM" {BaseTable ","}+ "USING" TableRef WhereClause?     -> DeleteStm {cons("Delete")}
     
-    BaseTable             -> UpdatableTable
-    JoinTableExpr         -> UpdatableTable
-    {UpdatableTable ","}+ -> UpdatableTables {cons("UpdatableTables")}
+    BaseTable                                -> UpdatableTable
+    JoinTableExpr                            -> UpdatableTable
+    UpdatableTable "," {UpdatableTable ","}+ -> UpdatableTables {cons("UpdatableTables")}
     
     SetClause WhereClause? -> SetValues {cons("SetValues")}
     
