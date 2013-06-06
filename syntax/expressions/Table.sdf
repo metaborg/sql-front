@@ -35,7 +35,9 @@ exports
     "SQL_BIG_RESULT"   -> ResultSizePrediction {cons("SqlBigResult")}
     
     ValExpr ColumnAs?   -> SelectItem {cons("ColumnProject")}
-    (RangeVar ".")? "*" -> SelectItem {cons("WildcardProject")}
+    RangeVarDot? "*" -> SelectItem {cons("WildcardProject")}
+    
+    RangeVar "." -> RangeVarDot {cons("RangeVarDot")}
     
     
     

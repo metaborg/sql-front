@@ -35,12 +35,14 @@ exports
     QueryExpr -> SelectStm %%{cons("SelectStm")}
     
     "INSERT" IgnoreClause? "INTO"? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?             -> InsertStm {cons("Insert")}
-    "INSERT" IgnoreClause? "INTO"? BaseTable "SET" {(ColumnName "=" RowValue) ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
+    "INSERT" IgnoreClause? "INTO"? BaseTable "SET" {ColumnValueAssignment ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
+    
+    ColumnName "=" RowValue -> ColumnValueAssignment {cons("ColumnValueAssignment")}
 
     "IGNORE" -> IgnoreClause {cons("Ignore")}
     "VALUES" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
     "VALUE"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
-    "ON" "DUPLICATE" "KEYS" "UPDATE" {(ColumnName "=" RowValue) ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
+    "ON" "DUPLICATE" "KEYS" "UPDATE" {ColumnValueAssignment ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
     
     "UPDATE" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("Update")}
     "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("Update")}
@@ -55,7 +57,7 @@ exports
     
     SetClause WhereClause? -> SetValues {cons("SetValues")}
     
-    "SET" {(ColumnName "=" RowValue) ","}+ -> SetClause {cons("SetClause")}
+    "SET" {ColumnValueAssignment ","}+ -> SetClause {cons("SetClause")}
     
     
     "(" {RowValue   ","}* ")" -> RowValues {cons("RowValues")}
