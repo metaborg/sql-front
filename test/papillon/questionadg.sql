@@ -1,0 +1,1 @@
+      SELECT   leverancier.lev, firmanaam, COUNT(art)       FROM   inkart, leverancier       WHERE   inkart.lev = leverancier.lev       GROUP   BY leverancier.lev, firmanaam       HAVING   COUNT(art) > (   SELECT   COUNT(art) * 10             FROM   leverancier, inkart             WHERE   leverancier.lev = inkart.lev                AND firmanaam = "Electron BV");       

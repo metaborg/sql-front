@@ -1,0 +1,1 @@
+      SELECT   inkart.art, beschrijving       FROM   inkart, artikel       WHERE   inkart.art = artikel.art          AND kleur = "roze"       GROUP   BY inkart.art, beschrijving       HAVING   COUNT(lev) > 1;       

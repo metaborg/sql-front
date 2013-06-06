@@ -1,0 +1,1 @@
+      SELECT   verkoop.art, beschrijving, prijs       FROM   artikel, verkoop       WHERE   artikel.art = verkoop.art          AND kleur = "zwart"       GROUP   BY verkoop.art, beschrijving, prijs       HAVING   COUNT(verk) > 2;       

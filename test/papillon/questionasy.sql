@@ -1,0 +1,1 @@
+      SELECT   art, beschrijving       FROM   artikel A1       WHERE   srtc = "bedgoed"          AND art = (   SELECT   MIN(art)             FROM   artikel A2             WHERE   A1.srtc = A2.srtc);       

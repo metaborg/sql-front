@@ -1,0 +1,1 @@
+      SELECT   beschrijving       FROM   verkoop, artikel, klant       WHERE   verkoop.klant = klant.klant          AND artikel.art = verkoop.art          AND kleur = "wit"          AND schuld = (   SELECT MAX(schuld)             FROM klant);       

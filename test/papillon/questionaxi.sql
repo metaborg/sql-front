@@ -1,0 +1,1 @@
+      SELECT   inkart.lev, firmanaam       FROM   inkart, leverancier, artikel       WHERE   inkart.lev = leverancier.lev          AND inkart.art = artikel.art          AND kleur = "roze"       GROUP   BY inkart.lev, firmanaam       HAVING   COUNT(inkart.art) > (   SELECT   COUNT(art) / 2             FROM   artikel             WHERE   kleur = "roze");       

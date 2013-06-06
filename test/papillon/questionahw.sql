@@ -1,0 +1,1 @@
+      SELECT   DISTINCT beschrijving, artikel.prijs       FROM   artikel, inkart, leverancier       WHERE   artikel.art = inkart.art          AND inkart.lev = leverancier.lev          AND vestplaats = "Amsterdam"          AND artikel.prijs > 300;       

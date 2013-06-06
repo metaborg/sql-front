@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(lev, aantal) AS          SELECT   lev, COUNT(artikel.art)          FROM   artikel, inkart          WHERE   artikel.art = inkart.art             AND srtc = "meubel"          GROUP   BY lev;           SELECT   lev       FROM   hulp       WHERE   aantal = (   SELECT   MAX(aantal)             FROM   hulp);           DROP VIEW hulp;       

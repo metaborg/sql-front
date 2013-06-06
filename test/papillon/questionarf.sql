@@ -1,0 +1,1 @@
+      SELECT   DISTINCT naam, voorl, schuld       FROM   klant, verkoop, artikel       WHERE   klant.klant = verkoop.klant          AND woonplaats = "Amsterdam"          AND schuld > 300          AND verkoop.art = artikel.art          AND artikel.prijs > 1000;       

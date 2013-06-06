@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(verdieping, aantafd) AS          SELECT   verdieping, COUNT(afd)          FROM   afdeling          GROUP   BY verdieping;           SELECT   verdieping       FROM   hulp       WHERE   aantafd = (   SELECT   MAX(aantafd)             FROM   hulp);           DROP VIEW hulp;       

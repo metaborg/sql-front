@@ -1,0 +1,1 @@
+      SELECT   verk, beschrijving, hoeveelheid       FROM   verkoop, klant, artikel       WHERE   verkoop.klant = klant.klant          AND woonplaats = "Rotterdam"          AND schuld > 450          AND verkoop.art = artikel.art;       

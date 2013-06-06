@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(afd, totaal) AS          SELECT   afd, COUNT(w)          FROM   werknemer          WHERE   woonplaats = "Den Haag"          GROUP   BY afd;           SELECT   afd, totaal       FROM   hulp       WHERE   totaal = (   SELECT   MIN(totaal)             FROM   hulp);           DROP VIEW hulp;       

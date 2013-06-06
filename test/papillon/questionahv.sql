@@ -1,0 +1,1 @@
+      SELECT   afdnaam       FROM   werknemer, klant, afdeling       WHERE   werknemer.naam = klant.naam          AND klant.adres = "Veerweg 23"          AND klant.woonplaats = "Den Haag"          AND werknemer.afd = afdeling.afd;       

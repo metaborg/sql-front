@@ -1,0 +1,1 @@
+      SELECT   beschrijving, kleur       FROM   artikel, inkart       WHERE   artikel.art = inkart.art          AND artikel.prijs - inkart.prijs = (   SELECT MIN(artikel.prijs - inkart.prijs)             FROM artikel, inkart             WHERE artikel.art = inkart.art);       

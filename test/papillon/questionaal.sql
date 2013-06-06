@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp1(postc, totschuld) AS          SELECT   postc, SUM(schuld)          FROM   klant          GROUP   BY postc;           SELECT   postc       FROM   hulp1       WHERE   totschuld = (   SELECT   MAX(totschuld)             FROM   hulp1);           DROP VIEW hulp1;       

@@ -1,0 +1,1 @@
+      SELECT   art, beschrijving, prijs       FROM   artikel       WHERE   srtc = "meubel"          AND prijs > (   SELECT   AVG(prijs)             FROM   artikel             WHERE   srtc = "meubel"                AND prijs > 200);       

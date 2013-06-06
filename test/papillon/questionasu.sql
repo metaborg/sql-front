@@ -1,0 +1,1 @@
+      SELECT   l, artikel.beschrijving       FROM   artikel, leverancier, leverantie       WHERE   artikel.art = leverantie.art          AND leverantie.lev = leverancier.lev          AND vestplaats = "Amsterdam"          AND year(datum) = 2002          AND month(datum) < 4;       

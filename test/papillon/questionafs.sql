@@ -1,0 +1,1 @@
+      SELECT   woonplaats, COUNT(w)       FROM   werknemer, afdeling       WHERE   werknemer.afd = afdeling.afd          AND verdieping = 0       GROUP   BY woonplaats       HAVING   COUNT(w) > 3;       

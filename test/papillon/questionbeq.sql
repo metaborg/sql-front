@@ -1,0 +1,1 @@
+      SELECT   DISTINCT beschrijving       FROM   artikel       WHERE   kleur = "roze"          AND art NOT IN (   SELECT   art             FROM   verkart, afdeling             WHERE   afdeling.afd = verkart.afd                AND afdeling.verdieping = 2);       

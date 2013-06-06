@@ -1,0 +1,1 @@
+      SELECT   woonplaats, COUNT(klant)       FROM   klant       GROUP   BY woonplaats       HAVING   COUNT(klant) > (   SELECT   COUNT(klant)             FROM   klant             WHERE   woonplaats = "Arnhem"                OR woonplaats = "Apeldoorn");       

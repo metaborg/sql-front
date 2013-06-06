@@ -1,0 +1,1 @@
+      SELECT   naam, voorl       FROM   klant, verkoop       WHERE   klant.klant = verkoop.klant          AND woonplaats = "Zutphen"          AND hoeveelheid = (   SELECT   MAX(hoeveelheid)             FROM   verkoop);       

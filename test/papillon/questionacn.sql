@@ -1,0 +1,1 @@
+      SELECT   srtc, COUNT(verkart.art)       FROM   artikel, verkart, afdeling       WHERE   artikel.art = verkart.art          AND verkart.afd = afdeling.afd          AND chefnaam = "Sonneveld"       GROUP   BY srtc       HAVING   COUNT(verkart.art) > 2;       
