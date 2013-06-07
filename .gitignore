@@ -22,3 +22,6 @@ utils
 lib/*.generated.str
 lib-refactoring/*.generated.str
 /include
+sql2clean.jar
+sql2clean/strategoxt.jar
+sql2clean/src-gen
