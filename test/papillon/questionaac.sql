@@ -1,1 +1,1 @@
-      SELECT   COUNT(l)       FROM   leverantie       WHERE   year(datum) = 2002;       
+      SELECT   COUNT(l)       FROM   leverantie       WHERE   YEAR(datum) = 2002;       
