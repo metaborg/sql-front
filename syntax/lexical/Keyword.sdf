@@ -12,6 +12,7 @@ exports
     "CREATE"  | 
     "CROSS"     -> ReservedKeyword 
 
+	"DAY"     |
     "DEFAULT" |
     "DISTINCT"|
     "DROP"    |
@@ -44,6 +45,7 @@ exports
     "SELECT"    -> ReservedKeyword 
 
     "MAX"   |
+    "MONTH" |
     "MIN"       -> ReservedKeyword 
 
     "NATURAL"|
@@ -75,6 +77,8 @@ exports
     
     "WIDTH"  |
     "WITH"      -> ReservedKeyword 
+    
+    "YEAR"      -> ReservedKeyword
    
 	
   lexical restrictions

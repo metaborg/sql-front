@@ -33,3 +33,18 @@ exports
         NumValExpr "+" NumValExpr -> NumValExpr
         NumValExpr "-" NumValExpr -> NumValExpr
       }
+
+  context-free syntax
+  	DateValExpr -> ValExpr
+  	
+  	CharStringLit -> DateValLit
+  	ColumnRef     -> DateValLit
+  	
+  	DateValLit -> DateValExpr
+  	
+  	ExtractFun "(" DateValLit ")" -> DateValExpr {cons("ExtractFun")}
+  	
+  	"YEAR"  -> ExtractFun {cons("Year")}
+  	"MONTH" -> ExtractFun {cons("Month")}
+  	"WEEK"  -> ExtractFun {cons("Week")}
+  	"DAY"   -> ExtractFun {cons("Day")}
