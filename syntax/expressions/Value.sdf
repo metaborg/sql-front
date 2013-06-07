@@ -35,9 +35,9 @@ exports
       }
 
   context-free syntax
-  	DateValExpr -> ValExpr
+  	DateValExpr -> ValExpr {avoid}
   	
-  	CharStringLit -> DateValLit
+  	CharStringLit -> DateValLit {cons("DateVal")}
   	ColumnRef     -> DateValLit
   	
   	DateValLit -> DateValExpr
