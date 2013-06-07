@@ -53,8 +53,8 @@ exports
     ColumnRef               -> GroupingColumnRef
     
     "WHERE" CondExpr                              -> WhereClause   {cons("Where")}
-    %%"GROUP BY" {GroupingColumnRef ","}  -> GroupByClause {cons("GroupBy")}
-    "GROUP BY" {SortSpec ","}+ WithRollupClause?  -> GroupByClause {cons("GroupBy")}
+    %%"GROUP" "BY" {GroupingColumnRef ","}  -> GroupByClause {cons("GroupBy")}
+    "GROUP" "BY" {SortSpec ","}+ WithRollupClause?  -> GroupByClause {cons("GroupBy")}
     "HAVING" CondExpr                             -> HavingClause  {cons("Having")}
     "LIMIT" UnsignedInteger                       -> LimitClause   {cons("Limit")}
     
