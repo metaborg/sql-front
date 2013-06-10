@@ -69,7 +69,7 @@ exports
     
     SortKey OrderingSpec? -> SortSpec {cons("SortSpec")}
     
-    ColumnName      -> SortKey
+    ColumnRef       -> SortKey
     UnsignedInteger -> SortKey
     
     "ASC"  -> OrderingSpec {cons("Ascending")}
