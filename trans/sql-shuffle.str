@@ -6,14 +6,15 @@ imports
   include/SQL
   
 rules
-	disambiguate=bottomup(try({\amb([x|xs]) -> x where(<eq>(<drop-while(?x)>xs, []))\})) 
+	// disambiguate=bottomup(try({\amb([x|xs]) -> x where(<eq>(<drop-while(?x)>xs, []))\}))
+	disambiguate = bottomup(try({\amb([x|xs]) -> x\}))
 	
 	clean-sql: stms -> Stms(result)
 		with
-	    	l := <clean-sql-helper(|"uuid")> stms
+	    	l := <disambiguate;clean-sql-helper(|"uuid")> stms
 	  	  ; result := <concat;map(pack)> l
 	  	    
-  clean-sql-helper(|uuid): (Stms(ast),_,_) -> [createViews', body', dropViews]
+  clean-sql-helper(|uuid): Stms(ast) -> [createViews', body', dropViews]
   	with
   	    ast'        := <map(unpack)> ast
   	  ; createViews := <filter(?CreateView(_, _, _, _))> ast'

@@ -8,9 +8,10 @@ imports
 strategies
 	clean(|uuid) =
 		?ifn;
-		parse-sql-file;
+		parse-sql-string;
 		sql2clean(|uuid)
 
 	sql2clean(|uuid) =
+	  disambiguate;
 		clean-sql-helper(|uuid);
 		map(map(pack;pp-sql-string))
