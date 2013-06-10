@@ -50,7 +50,9 @@ exports
     [\\][\\]   -> CharRepr %% double backslash
     
     CharRepr -> CharRepr1
-    [\\][\']    -> CharRepr1 %% escaped single quote
+    [\\][\'] -> CharRepr1 %% escaped single quote
+    [\"]     -> CharRepr1
     
     CharRepr -> CharRepr2
-    [\\][\"]   -> CharRepr2 %% escaped double quote
+    [\\][\"] -> CharRepr2 %% escaped double quote
+    [\']     -> CharRepr2
