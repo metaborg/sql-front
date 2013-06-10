@@ -13,5 +13,8 @@
    
    OnDuplicateKeyClause                  -- KW["ON"] KW["DUPLICATE"] KW["KEYS"] KW["UPDATE"] _1,
    
-   SetClause                             -- KW["SET"] _1
+   SetClause                             -- KW["SET"] _1,
+   
+   amb                                   -- KW["!ambiguous!"] "(" V[ _1 ] ")",
+   amb.1:iter-star                       -- H[ _1 ] 
 ]

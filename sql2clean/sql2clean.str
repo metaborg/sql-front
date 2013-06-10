@@ -12,6 +12,6 @@ strategies
 		sql2clean(|uuid)
 
 	sql2clean(|uuid) =
-	  disambiguate;
+		disambiguate;
 		clean-sql-helper(|uuid);
 		map(map(pack;pp-sql-string))
