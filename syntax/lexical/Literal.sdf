@@ -43,8 +43,14 @@ exports
   %% @todo Support character set stuff?
   sorts CharStringLit CharRepr
   lexical syntax
-    "'" CharRepr* "'" -> CharStringLit
-    "\"" CharRepr* "\"" -> CharStringLit
+    [\'] CharRepr1* [\'] -> CharStringLit
+    [\"] CharRepr2* [\"] -> CharStringLit
 
-    [A-Za-z0-9\ \"\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\_\|] -> CharRepr
-    "''" -> CharRepr
+    [A-Za-z0-9\ \%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\_\|] -> CharRepr
+    [\\][\\]   -> CharRepr %% double backslash
+    
+    CharRepr -> CharRepr1
+    [\\][\']    -> CharRepr1 %% escaped single quote
+    
+    CharRepr -> CharRepr2
+    [\\][\"]   -> CharRepr2 %% escaped double quote
