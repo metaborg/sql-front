@@ -1,1 +1,1 @@
-      SELECT   SUM(bedrag)       FROM   verkoop, artikel       WHERE   month(datum) = 12          AND year(datum) = 2002          AND verkoop.art = artikel.art          AND srtc = "meubel";       
+      SELECT   SUM(bedrag)       FROM   verkoop, artikel       WHERE   MONTH(datum) = 12          AND YEAR(datum) = 2002          AND verkoop.art = artikel.art          AND srtc = "meubel";       
