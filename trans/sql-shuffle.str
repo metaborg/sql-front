@@ -22,15 +22,15 @@ rules
   	    
   	  ; createViews' := <map(createView-rename(|uuid))> createViews
   	    
-  	  ; createView-baseTables := <map(createView-baseTable)> createViews
-  	  ; body' := <try-uses-rename(|uuid,createView-baseTables);try-limit-50> body
+  	  ; createView-names := <map(createView-name)> createViews
+  	  ; body' := <try-uses-rename(|uuid,createView-names);try-limit-50> body
   	    
   	  ; dropViews := <if(<equal>(createViews,[]), ![], ![DropView(None(), <map(extractNrename(|uuid))> createViews)])> 
     
   unpack: Stm(s) -> s
   pack:   s -> Stm(s)
   	    
-  createView-baseTable: CreateView(_,ViewName(baseTable),_,_) -> baseTable
+  createView-name: CreateView(_,ViewName(BaseTable(_,name)),_,_) -> name
   
   createView-rename(|uuid): CreateView(a,vn,b,c) -> CreateView(a,vn',b,c)
   	with vn' := <viewName-rename(|uuid)> vn
@@ -41,8 +41,11 @@ rules
   viewName-rename(|uuid): ViewName(BaseTable(b,viewName)) -> ViewName(BaseTable(b,viewName'))
   	with viewName' := <conc-strings> (uuid, viewName)
   
-  viewName-uses-rename(|uuid,baseTables): BaseTable(a,name) -> BaseTable(a,name')
-  	with name' := <if(<elem>(BaseTable(a,name), baseTables), <conc-strings>(uuid, name), !name)>
+  viewName-uses-rename(|uuid,names): BaseTable(a,name) -> BaseTable(a,name')
+  	with name' := <if(<elem>(name, names), <conc-strings>(uuid, name), !name)>
+  	
+  viewName-uses-rename(|uuid,names): ColumnRef(Some(ColumnQualifierDot(AmbQualifier(name))),b) -> ColumnRef(Some(ColumnQualifierDot(AmbQualifier(name'))),b)
+  	with name' := <if(<elem>(name, names), <conc-strings>(uuid, name), !name)>
 
   limit-select: Select(a,b,c,d,e,f,g,h,i,None()) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit("50")))
 
