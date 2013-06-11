@@ -8,7 +8,7 @@ imports
 exports
   sorts Stms ExecStm DataStm
   context-free syntax
-    ExecStm* -> Stms {cons("Stms")}
+    ExecStm+ -> Stms {cons("Stms")}
 
     DataStm    ";" -> ExecStm {cons("Stm")}
     DataDefStm ";" -> ExecStm {cons("Stm")}
@@ -45,15 +45,18 @@ exports
     "ON" "DUPLICATE" "KEYS" "UPDATE" {ColumnValueAssignment ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
     
     "UPDATE" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("Update")}
-    "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("Update")}
-    
-    "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause? -> DeleteStm {cons("Delete")}
-    "DELETE"        {BaseTable ","}+ "FROM"  TableRef WhereClause?     -> DeleteStm {cons("Delete")}
-    "DELETE" "FROM" {BaseTable ","}+ "USING" TableRef WhereClause?     -> DeleteStm {cons("Delete")}
+    "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("Updatem")}
     
     BaseTable                                -> UpdatableTable
     JoinTableExpr                            -> UpdatableTable
     UpdatableTable "," {UpdatableTable ","}+ -> UpdatableTables {cons("UpdatableTables")}
+    
+    "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause?  -> DeleteStm {cons("Delete")}
+    "DELETE"        {DeletableTable ","}+ "FROM"  TableRef WhereClause? -> DeleteStm {cons("Deletem")}
+    "DELETE" "FROM" {DeletableTable ","}+ "USING" TableRef WhereClause? -> DeleteStm {cons("Deletem")}
+    
+    BaseTable         -> DeletableTable
+    BaseTable "." "*" -> DeletableTable {cons("DeleteableTableDotAll")}
     
     SetClause WhereClause? -> SetValues {cons("SetValues")}
     
