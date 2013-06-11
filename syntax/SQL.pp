@@ -1,5 +1,6 @@
 %% Pretty printing table (see also SQL.generated.pp)
 [
+ %% Start of rules to overwrite weird vertical rules in generated PP. 
    Stms                                  -- V[ _1 ],
    Stms.1:iter-star                      -- _1,
    Stm                                   -- H hs=0[ H[ _1 ] KW[";"] ],
@@ -14,7 +15,9 @@
    OnDuplicateKeyClause                  -- KW["ON"] KW["DUPLICATE"] KW["KEYS"] KW["UPDATE"] _1,
    
    SetClause                             -- KW["SET"] _1,
-   
+ %%
+  
+ %% Start of rules to put parentheses immediately after the function name 
    ExtractFun                      -- H hs=0[ H[ _1 ] "(" H[ _2 ] ")" ],
    Case                            -- H hs=0[ KW["CAST"] "(" H[ _1 KW["AS"] _2 ] ")" ],
    NullIf                          -- H hs=0[ KW["NULLIF"] "(" H[ _1 ] "," H[ _2 ] ")"],
@@ -26,7 +29,10 @@
    Convert                         -- H hs=0[ KW["CONVERT"]   "(" H[ _1 KW["USING"] _2 ] ")"],
    Translate                       -- H hs=0[ KW["TRANSLATE"] "(" H[ _1 KW["USING"] _2 ] ")"],
    Trim                            -- H hs=0[ KW["TRIM"] "(" H[ _1 _2 ] ")"],
+ %%
    
+ %% Start of rules to print ambiguous grammars. This is for debugging
    amb                                   -- KW["!ambiguous!"] "(" V[ _1 ] ")",
    amb.1:iter-star                       -- H[ _1 ] 
+ %%
 ]
