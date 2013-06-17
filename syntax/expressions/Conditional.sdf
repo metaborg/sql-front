@@ -61,6 +61,7 @@ exports
     "NULL"     -> RowConstructor {cons("Null")}
     "DEFAULT"  -> RowConstructor {cons("Default")}
 
-    "(" {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
+    "ROW" "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
+    "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
     "(" QueryExpr             ")" -> RowConstructor {cons("Subquery")}
 
