@@ -6,10 +6,11 @@ imports
   include/SQL
 
 rules
+  disambiguate=bottomup(try(amb-first))
+  amb-first: amb([x|xs]) -> x
+  amb-first-if-all-equal: amb([x|xs]) -> x where(<eq>(<drop-while(?x)>xs, []))
 
-  disambiguate=bottomup(try({\amb([x|xs]) -> x where(<eq>(<drop-while(?x)>xs, []))\}))
-
-  clean-sql: (stms,_,_) -> Stms(result)
+  clean-sql: stms -> Stms(result)
     with
         l := <clean-sql-helper(|"uuid")> stms
       ; result := <concat;map(pack)> l

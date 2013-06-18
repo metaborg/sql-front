@@ -15,4 +15,4 @@ language General properties
   table         : include/SQL.tbl
   start symbols : Stms
   
-  disambiguator: disambiguate
+  // disambiguator: disambiguate
