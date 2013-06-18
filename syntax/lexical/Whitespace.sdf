@@ -2,9 +2,7 @@ module lexical/Whitespace
 exports
   lexical syntax
     [\ \t\n\r]+ -> Whitespace
-    [\-][\-]    -> CommentStart
-    ~[\n]       -> CommentBody
-    CommentStart CommentBody* -> Comment
+    [\-][\-] ~[\n]* -> Comment
 
   context-free restrictions
     Whitespace -/- [\ \t\n\r]
@@ -12,4 +10,5 @@ exports
     LAYOUT?    -/- [\ \t\n\r]
 
   lexical syntax
-    Whitespace (Comment Whitespace?)? -> LAYOUT
+    Whitespace -> LAYOUT
+    Comment    -> LAYOUT
