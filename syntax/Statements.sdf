@@ -34,8 +34,10 @@ exports
     %% Data statements
     QueryExpr -> SelectStm %%{cons("SelectStm")}
     
-    "INSERT" IgnoreClause? "INTO"? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?         -> InsertStm {cons("Insert")}
-    "INSERT" IgnoreClause? "INTO"? BaseTable "SET" {ColumnValueAssignment ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
+    "INSERT" IgnoreClause? "INTO" BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?         -> InsertStm {cons("Insert")}
+    "INSERT" IgnoreClause? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?                -> InsertStm {cons("Insert")}
+    "INSERT" IgnoreClause? "INTO" BaseTable "SET" {ColumnValueAssignment ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
+    "INSERT" IgnoreClause? BaseTable "SET" {ColumnValueAssignment ","}+ OnDuplicateKeyClause?        -> InsertStm {cons("Insertm")}
     
     ColumnName "=" RowValue -> ColumnValueAssignment {cons("ColumnValueAssignment")}
 
