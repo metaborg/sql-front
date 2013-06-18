@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="SQL" default="all">
+	
+	<property name="permissive-grammar.available" value="true"/>
         
         <!-- Key input modules -->
         <property name="sdfmodule" value="SQL"/>
@@ -41,5 +43,15 @@
         <import file="build.generated.xml"/>   
     
         <!-- Main target -->
-        <target name="all" depends="spoofaximp.default.jar"/>
+        <target name="all" depends="copy-sdf-permissive,spoofaximp.default.jar">
+	      
+	    </target>
+	
+	<target name="copy-sdf-permissive" depends="check-def-exists" if="extra.def.exists">
+	 	<copyfile forceoverwrite="true" dest="${include}/${sdfmodule}-Permissive.def" src="${include}/${sdfmodule}.def"/>
+	</target>
+	
+	<target name="check-def-exists">
+		<available file="${include}/${sdfmodule}.def" property="extra.def.exists"/>
+	</target>
     </project>
