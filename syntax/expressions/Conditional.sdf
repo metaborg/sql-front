@@ -63,5 +63,7 @@ exports
 
     "ROW" "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
     "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
-    "(" QueryExpr             ")" -> RowConstructor {cons("Subquery")}
+    
+    %% not required, already in ValExpr through Primary[E]
+    %% "(" QueryExpr             ")" -> RowConstructor {cons("Subquery")} 
 
