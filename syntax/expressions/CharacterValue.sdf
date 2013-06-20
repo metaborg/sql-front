@@ -21,24 +21,36 @@ exports
 
   context-free syntax
     "SUBSTRING" "(" CharValExpr "FROM" NumValExpr ForClause? ")" -> CharValFun {cons("Substring")}
+    "substring" "(" CharValExpr "from" NumValExpr ForClause? ")" -> CharValFun {cons("Substring")}
     "FOR" NumValExpr -> ForClause {cons("For")}
+    "for" NumValExpr -> ForClause {cons("For")}
 
     "UPPER" "(" CharValExpr ")" -> CharValFun {cons("Upper")}
+    "upper" "(" CharValExpr ")" -> CharValFun {cons("Upper")}
     "LOWER" "(" CharValExpr ")" -> CharValFun {cons("Lower")}
+    "lower" "(" CharValExpr ")" -> CharValFun {cons("Lower")}
 
     "CONVERT"   "(" CharValExpr "USING" QualifiedName ")" -> CharValFun {cons("Convert")}
+    "convert"   "(" CharValExpr "using" QualifiedName ")" -> CharValFun {cons("Convert")}
     "TRANSLATE" "(" CharValExpr "USING" QualifiedName ")" -> CharValFun {cons("Translate")}
+    "translate" "(" CharValExpr "using" QualifiedName ")" -> CharValFun {cons("Translate")}
 
     "TRIM" "(" TrimOp? CharValExpr ")" -> CharValFun {cons("Trim")}
+    "trim" "(" TrimOp? CharValExpr ")" -> CharValFun {cons("Trim")}
 
     TrimSpec? CharValExpr? "FROM" -> TrimOp {cons("TrimOp")}
+    TrimSpec? CharValExpr? "from" -> TrimOp {cons("TrimOp")}
     "LEADING"  -> TrimSpec {cons("Leading")}
+    "leading"  -> TrimSpec {cons("Leading")}
     "TRAILING" -> TrimSpec {cons("Trailing")}
+    "trailing" -> TrimSpec {cons("Trailing")}
     "BOTH"     -> TrimSpec {cons("Both")}
+    "both"     -> TrimSpec {cons("Both")}
 
   %% @todo isn't the SUBSTRING amb?
   sorts BitValFun BitValExpr
   context-free syntax
     "SUBSTRING" "("  BitValExpr "FROM" NumValExpr ForClause? ")" -> BitValFun {cons("Substring")}
+    "substring" "("  BitValExpr "from" NumValExpr ForClause? ")" -> BitValFun {cons("Substring")}
     BitValExpr "||" BitValExpr -> BitValExpr {cons("Concat"), left}
     StringValFun -> BitValExpr

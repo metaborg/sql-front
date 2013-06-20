@@ -5,7 +5,9 @@ imports
 exports
   context-free syntax
     "CAST" "(" CastOperand "AS" CastTarget ")" -> CastSpec {cons("Case")}
+    "cast" "(" CastOperand "as" CastTarget ")" -> CastSpec {cons("Case")}
     "NULL"  -> CastOperand {cons("Null")}
+    "null"  -> CastOperand {cons("Null")}
     ValExpr -> CastOperand
 
     DomainName -> CastTarget

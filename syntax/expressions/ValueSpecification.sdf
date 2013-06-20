@@ -19,14 +19,20 @@ exports
     DynParamSpec   -> GeneralValSpec
     VarSpec        -> GeneralValSpec
     "USER"         -> GeneralValSpec {cons("User")}
+    "user"         -> GeneralValSpec {cons("User")}
     "CURRENT_USER" -> GeneralValSpec {cons("CurrentUser")}
+    "current_user" -> GeneralValSpec {cons("CurrentUser")}
     "SESSION_USER" -> GeneralValSpec {cons("SessionUser")}
+    "session_user" -> GeneralValSpec {cons("SessionUser")}
     "SYSTEM_USER"  -> GeneralValSpec {cons("SystemUser")}
+    "system_user"  -> GeneralValSpec {cons("SystemUser")}
     "VALUE"        -> GeneralValSpec {cons("Value")}
+    "value"        -> GeneralValSpec {cons("Value")}
 
     "?" -> DynParamSpec  {cons("DynParam")}
 
     VarName Indicator?  -> VarSpec {cons("varSpec")}
     "INDICATOR" VarName -> IndicatorVar {cons("Indicator")}
+    "indicator" VarName -> IndicatorVar {cons("Indicator")}
     ":" HostId -> VarName {cons("HostVar")}
     ":" Id     -> VarName {cons("Var")}

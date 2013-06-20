@@ -22,5 +22,8 @@ exports
     Identifier -> ColumnQualifier {cons("AmbQualifier"), prefer}
 
     "ALL"         -> SetQuantifier {cons("All")}
+    "all"         -> SetQuantifier {cons("All")}
     "DISTINCT"    -> SetQuantifier {cons("Distinct")}
+    "distinct"    -> SetQuantifier {cons("Distinct")}
     "DISTINCTROW" -> SetQuantifier {cons("DistinctRow")}
+    "distinctrow" -> SetQuantifier {cons("DistinctRow")}

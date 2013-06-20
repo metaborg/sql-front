@@ -29,3 +29,4 @@ test/*.aterm
 test/papillon/*.aterm
 test/*.clean.sql
 test/papillon/*.clean.sql
+/syntax-gen

@@ -15,11 +15,17 @@ exports
     "(" QueryExpr ")" -> E {cons("Subquery")}
     "(" ValExpr   ")" -> E {bracket}
 
-    "COUNT(*)"                              -> E {cons("CountAll")}
+    "COUNT" "(" "*" ")"                     -> E {cons("CountAll")}
+    "count" "(" "*" ")"                     -> E {cons("CountAll")}
     AggrFun "(" SetQuantifier?  ValExpr ")" -> E {cons("Aggr")}
 
     "AVG"   -> AggrFun {cons("Avg")  }
+    "avg"   -> AggrFun {cons("Avg")  }
     "MAX"   -> AggrFun {cons("Max")  }
+    "max"   -> AggrFun {cons("Max")  }
     "MIN"   -> AggrFun {cons("Min")  }
+    "min"   -> AggrFun {cons("Min")  }
     "SUM"   -> AggrFun {cons("Sum")  }
+    "sum"   -> AggrFun {cons("Sum")  }
     "COUNT" -> AggrFun {cons("Count")}
+    "count" -> AggrFun {cons("Count")}

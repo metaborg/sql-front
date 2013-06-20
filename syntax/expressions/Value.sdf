@@ -45,6 +45,10 @@ exports
   	ExtractFun "(" DateValLit ")" -> DateValExpr {cons("ExtractFun")}
   	
   	"YEAR"  -> ExtractFun {cons("Year")}
+  	"year"  -> ExtractFun {cons("Year")}
   	"MONTH" -> ExtractFun {cons("Month")}
+  	"month" -> ExtractFun {cons("Month")}
   	"WEEK"  -> ExtractFun {cons("Week")}
+  	"week"  -> ExtractFun {cons("Week")}
   	"DAY"   -> ExtractFun {cons("Day")}
+  	"day"   -> ExtractFun {cons("Day")}

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="SQL" default="all">
+<project name="SQL" default="all">	
+
+		<!-- To prevent creation of a permissive grammar -->
+		<property name="permissive-grammar.available" value="true"/>
 	
-	<property name="permissive-grammar.available" value="true"/>
-        
         <!-- Key input modules -->
         <property name="sdfmodule" value="SQL"/>
         <property name="metasdfmodule" value="Stratego-SQL"/>
@@ -28,7 +29,7 @@
                         -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm -la stratego-parallel"/>
         
         <!-- Optional: external .def and .jar locations
-        <property name="externaldef" location="syntax/${sdfmodule}.def"/>
+        <property name="externaldef" location="${syntax}/${sdfmodule}.def"/>
         <property name="externaljar" value="../lib.jar"/>
         <property name="externaljarflags" value="-la org.lib"/>
         -->
@@ -43,15 +44,15 @@
         <import file="build.generated.xml"/>   
     
         <!-- Main target -->
-        <target name="all" depends="copy-sdf-permissive,spoofaximp.default.jar">
-	      
-	    </target>
+        <target name="all" depends="generate-keyword-file,pack-sdf,copy-sdf-permissive,spoofaximp.default.jar"/>
 	
-	<target name="copy-sdf-permissive" depends="check-def-exists" if="extra.def.exists">
-	 	<copyfile forceoverwrite="true" dest="${include}/${sdfmodule}-Permissive.def" src="${include}/${sdfmodule}.def"/>
-	</target>
-	
-	<target name="check-def-exists">
-		<available file="${include}/${sdfmodule}.def" property="extra.def.exists"/>
-	</target>
+		<target name="copy-sdf-permissive">
+		 	<copyfile forceoverwrite="true" dest="${include}/${sdfmodule}-Permissive.def" src="${include}/${sdfmodule}.def"/>
+		</target>
+		
+		<target name="generate-keyword-file">
+			<exec dir="${syntax}" executable="../gen-keywords" failonerror="true">
+				<arg file="${syntax}/lexical/Keyword.sdf"/>
+			</exec>
+		</target>
     </project>

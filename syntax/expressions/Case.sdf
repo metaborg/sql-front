@@ -7,16 +7,24 @@ exports
   sorts CaseExpr
   context-free syntax
     "NULLIF"   "(" ValExpr "," ValExpr ")" -> CaseExpr {cons("NullIf")}
+    "nullif"   "(" ValExpr "," ValExpr ")" -> CaseExpr {cons("NullIf")}
     "COALESCE" "(" {ValExpr ","}+      ")" -> CaseExpr {cons("Coalesce")}
+    "coalesce" "(" {ValExpr ","}+      ")" -> CaseExpr {cons("Coalesce")}
 
     "CASE" ValExpr SimpleWhenClause+ ElseClause? "END" -> CaseExpr {cons("SimpleCase")}
+    "case" ValExpr SimpleWhenClause+ ElseClause? "end" -> CaseExpr {cons("SimpleCase")}
     "CASE"       SearchedWhenClause+ ElseClause? "END" -> CaseExpr {cons("SearchedCase")}
+    "case"       SearchedWhenClause+ ElseClause? "end" -> CaseExpr {cons("SearchedCase")}
 
   sorts SimpleWhenClause SearchedWhenClause ElseClause ResultExpr
   context-free syntax
     "WHEN" ValExpr  "THEN" ResultExpr -> SimpleWhenClause {cons("WhenClause")}
+    "when" ValExpr  "then" ResultExpr -> SimpleWhenClause {cons("WhenClause")}
     "WHEN" CondExpr "THEN" ResultExpr -> SearchedWhenClause {cons("WhenClause")}
+    "when" CondExpr "then" ResultExpr -> SearchedWhenClause {cons("WhenClause")}
 
     "ELSE" ResultExpr -> ElseClause {cons("ElseClause")}
+    "else" ResultExpr -> ElseClause {cons("ElseClause")}
     "NULL"  -> ResultExpr {cons("Null")}
+    "null"  -> ResultExpr {cons("Null")}
     ValExpr -> ResultExpr
