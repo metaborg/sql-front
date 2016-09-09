@@ -1,0 +1,1 @@
+      SELECT   srtc, COUNT(art)       FROM   artikel       WHERE   1 < (   SELECT   COUNT(afd)             FROM   verkart             WHERE   artikel.art = verkart.art)       GROUP   BY srtc       HAVING   COUNT(art) > 15;       

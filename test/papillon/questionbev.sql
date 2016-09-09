@@ -1,0 +1,1 @@
+      SELECT   COUNT(lev)       FROM   leverancier       WHERE   lev NOT IN (   SELECT   lev             FROM   inkart, artikel             WHERE   inkart.art = artikel.art                AND srtc = "plant");       

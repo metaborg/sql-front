@@ -1,0 +1,1 @@
+      SELECT   afdeling.afd, afdnaam, COUNT(art)       FROM   verkart, afdeling       WHERE   verkart.afd = afdeling.afd       GROUP   BY afdeling.afd, afdnaam       HAVING   COUNT(art) > (   SELECT   COUNT(art)             FROM   verkart, werknemer             WHERE   verkart.afd = werknemer.afd                AND naam = "Linthout"                AND voorl = "G E");       

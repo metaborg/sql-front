@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(afd, aantal) AS          SELECT   afd, COUNT(verk)          FROM   verkoop, klant          WHERE   verkoop.klant = klant.klant             AND klant.woonplaats = "Den Haag"          GROUP   BY afd;           SELECT   afd       FROM   hulp       WHERE   aantal = (   SELECT   MAX(aantal)             FROM   hulp);           DROP VIEW hulp;       

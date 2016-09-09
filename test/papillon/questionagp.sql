@@ -1,0 +1,1 @@
+      SELECT   SUM(hoeveelheid * prijs)       FROM   leverantie, inkart, leverancier       WHERE   leverantie.lev = inkart.lev          AND leverantie.art = inkart.art          AND leverantie.lev = leverancier.lev          AND firmanaam = "Rio Bello";       

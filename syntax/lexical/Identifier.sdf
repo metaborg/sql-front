@@ -11,8 +11,9 @@ exports
     Identifier -> RangeVar   {cons("RangeVar")} 
 
   lexical syntax
-    [a-zA-Z][a-zA-Z0-9\_]* -> Identifier
-    ReservedKeyword        -> Identifier {reject}
+    [a-zA-Z][a-zA-Z0-9\_]*         -> Identifier
+    [\'][a-zA-Z][a-zA-Z0-9\_\ ]*[\'] -> Identifier
+    ReservedKeyword                -> Identifier {reject}
 
   lexical restrictions
     Identifier -/- [a-zA-Z0-9\_]

@@ -6,16 +6,24 @@ exports
   sorts ColumnRef ColumnQualifier Table SetQuantifier
   context-free syntax
 
-    (Catalog ".")? Identifier -> Schema    {cons("Schema")}
-    (Schema ".")?  Identifier -> BaseTable {cons("BaseTable")}
+    CatalogDot? Identifier -> Schema    {cons("Schema")}
+    SchemaDot?  Identifier -> BaseTable {cons("BaseTable")}
 
     BaseTable -> Table 
 
-    (ColumnQualifier ".")? ColumnName -> ColumnRef {cons("ColumnRef")}
+    ColumnQualifierDot? ColumnName -> ColumnRef {cons("ColumnRef")}
+    
+    Catalog "."         -> CatalogDot         {cons("CatalogDot")}
+    Schema "."          -> SchemaDot          {cons("SchemaDot")}
+    ColumnQualifier "." -> ColumnQualifierDot {cons("ColumnQualifierDot")}
 
     Table      -> ColumnQualifier
     RangeVar   -> ColumnQualifier
     Identifier -> ColumnQualifier {cons("AmbQualifier"), prefer}
 
-    "ALL"       -> SetQuantifier {cons("All")}
-    "DISTINCT"  -> SetQuantifier {cons("Distinct")}
+    "ALL"         -> SetQuantifier {cons("All")}
+    "all"         -> SetQuantifier {cons("All")}
+    "DISTINCT"    -> SetQuantifier {cons("Distinct")}
+    "distinct"    -> SetQuantifier {cons("Distinct")}
+    "DISTINCTROW" -> SetQuantifier {cons("DistinctRow")}
+    "distinctrow" -> SetQuantifier {cons("DistinctRow")}

@@ -1,0 +1,1 @@
+      SELECT   DISTINCT beschrijving       FROM   artikel, inkart, verkart, leverancier, afdeling       WHERE   artikel.art = inkart.art          AND inkart.lev = leverancier.lev          AND firmanaam = "Bindu"          AND artikel.art = verkart.art          AND verkart.afd = afdeling.afd          AND afdnaam = "Kleding";       

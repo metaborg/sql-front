@@ -1,0 +1,1 @@
+      SELECT   beschrijving       FROM   artikel       WHERE   kleur = "geel"          AND NOT EXISTS (   SELECT   art             FROM   verkart, afdeling             WHERE   artikel.art = verkart.art                AND verkart.afd = afdeling.afd                AND verdieping = 2);       

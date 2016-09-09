@@ -13,4 +13,6 @@ language General properties
                   
   extensions    : sql
   table         : include/SQL.tbl
-  start symbols : ExecStm
+  start symbols : Stms
+  
+  // disambiguator: disambiguate

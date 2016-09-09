@@ -1,0 +1,61 @@
+module sql-shuffle
+
+imports
+  libstratego-lib
+  lib/editor-common.generated
+  include/SQL
+
+rules
+  disambiguate=bottomup(try(amb-first))
+  amb-first: amb([x|xs]) -> x
+  amb-first-if-all-equal: amb([x|xs]) -> x where(<eq>(<drop-while(?x)>xs, []))
+
+  clean-sql: stms -> Stms(result)
+    with
+        l := <clean-sql-helper(|"uuid")> stms
+      ; result := <concat;map(pack)> l
+
+  clean-sql-helper(|uuid): Stms(ast) -> [createViews', body', dropViews]
+    with
+        ast'        := <map(unpack)> ast
+      ; createViews := <filter(?CreateView(_, _, _, _))> ast'
+      ; body        := <filter(not(?CreateView(_,_,_,_) <+ ?DropView(_,_)))> ast'
+      ; createView-names := <map(createView-name)> createViews
+
+      ; createViews' := <try-uses-rename(|uuid,createView-names)> createViews
+
+      ; body' := <try-uses-rename(|uuid,createView-names);try-limit-50> body
+
+      ; dropViews := <if(<equal>(createViews,[]), ![], ![DropView(None(), <map(extractNrename(|uuid))> createViews)])>
+
+  unpack: Stm(s) -> s
+  pack:   s -> Stm(s)
+
+  createView-name: CreateView(_,ViewName(BaseTable(_,name)),_,_) -> name
+
+  extractNrename(|uuid): CreateView(_,vn,_,_) -> vn'
+    with vn' := <viewName-rename(|uuid)> vn
+
+  viewName-rename(|uuid): ViewName(BaseTable(b,viewName)) -> ViewName(BaseTable(b,viewName'))
+    with viewName' := <conc-strings> (uuid, viewName)
+
+  viewName-uses-rename(|uuid,names): BaseTable(a,name) -> BaseTable(a,name')
+    with name' := <if(<elem>(name, names), <conc-strings>(uuid, name), !name)>
+
+  viewName-uses-rename(|uuid,names): ColumnRef(Some(ColumnQualifierDot(AmbQualifier(name))),b) -> ColumnRef(Some(ColumnQualifierDot(AmbQualifier(name'))),b)
+    with name' := <if(<elem>(name, names), <conc-strings>(uuid, name), !name)>
+
+  limit-select: Select(a,b,c,d,e,f,g,h,i,None()) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit("50")))
+
+  limit-select: Select(a,b,c,d,e,f,g,h,i,Some(Limit(l))) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit(l')))
+    with l' := <if(<leqS>(l,"50"), !l, !"50")>
+
+  limit-select: Select(a,b,c,d,e,f,g,h,i,Some(Limit(o,l))) -> Select(a,b,c,d,e,f,g,h,i,Some(Limit(o,l')))
+    with l' := <if(<leqS>(l,"50"), !l, !"50")>
+
+  limit-select: Select(a,b,c,d,e,f,g,h,i,Some(LimitOffset(l,o))) -> Select(a,b,c,d,e,f,g,h,i,Some(LimitOffset(l',o)))
+    with l' := <if(<leqS>(l,"50"), !l, !"50")>
+
+strategies
+  try-uses-rename(|uuid,list) = topdown(try(viewName-uses-rename(|uuid,list)))
+  try-limit-50 = map(try(limit-select))

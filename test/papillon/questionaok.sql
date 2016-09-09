@@ -1,0 +1,1 @@
+      SELECT   COUNT(l), SUM(hoeveelheid)       FROM   leverancier,leverantie       WHERE   leverancier.lev = leverantie.lev          AND vestplaats = "Amsterdam"          AND year(datum) = 2002          AND month(datum) = 2;       

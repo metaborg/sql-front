@@ -1,0 +1,1 @@
+      SELECT   beschrijving       FROM   artikel, verkart, afdeling       WHERE   prijs > 600          AND artikel.art = verkart.art          AND verkart.afd = afdeling.afd          AND afdeling.afdnaam = "Meubel";       

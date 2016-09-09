@@ -1,4 +1,4 @@
 SELECT
   StarsIn.starName, studioName
 FROM
-  Movies NATURAL JOIN StarsIn
+  Movies NATURAL JOIN StarsIn;

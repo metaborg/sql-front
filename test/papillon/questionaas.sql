@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp1(datum, totomz) AS          SELECT   datum, SUM(bedrag)          FROM   verkoop          WHERE   YEAR(datum) = 2002          GROUP   BY datum;           SELECT   datum, totomz       FROM   hulp1       WHERE   totomz = (   SELECT   MAX(totomz)             FROM   hulp1);           DROP VIEW hulp1;       

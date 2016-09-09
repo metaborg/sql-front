@@ -1,0 +1,1 @@
+      SELECT   verkart.afd, afdnaam, COUNT(art)       FROM   verkart, afdeling       WHERE   verkart.afd = afdeling.afd       GROUP   BY verkart.afd, afdnaam       HAVING   COUNT(art) < (   SELECT   COUNT(art)             FROM   verkart, afdeling             WHERE   verkart.afd = afdeling.afd                AND afdnaam = "Speelgoed");       

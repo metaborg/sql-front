@@ -1,0 +1,1 @@
+      SELECT   beschrijving, prijs       FROM   artikel, afdeling, verkart       WHERE   artikel.art = verkart.art          AND verkart.afd = afdeling.afd          AND afdeling.telnr = 6367          AND kleur = "zilver";       

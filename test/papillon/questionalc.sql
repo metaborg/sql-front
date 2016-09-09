@@ -1,0 +1,1 @@
+      SELECT   artikel.beschrijving, soort.beschrijving       FROM   soort, artikel, verkoop       WHERE   soort.srtc = artikel.srtc          AND artikel.art = verkoop.art          AND hoeveelheid = 15          AND kleur = 'bruin';       

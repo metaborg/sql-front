@@ -1,1 +1,1 @@
-SELECT * FROM Book WHERE year = 2003
+SELECT * FROM Book WHERE year = 2003;

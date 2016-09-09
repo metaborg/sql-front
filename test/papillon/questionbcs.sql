@@ -1,0 +1,1 @@
+      SELECT   chefnaam       FROM   artikel, afdeling, verkart       WHERE   artikel.art = verkart.art          AND verkart.afd = afdeling.afd          AND beschrijving = "theedoeken"          AND kleur = "rood";       

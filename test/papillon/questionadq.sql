@@ -1,0 +1,1 @@
+      SELECT   SUM(hoeveelheid * prijs)       FROM   leverantie, inkart       WHERE   leverantie.art = inkart.art          AND leverantie.lev = inkart.lev          AND YEAR(datum) = 2002          AND MONTH(datum) = 12          AND DAY(datum) = 22;       

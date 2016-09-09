@@ -1,0 +1,1 @@
+      SELECT   datum, COUNT(verk)       FROM   verkoop, artikel       WHERE   verkoop.art = artikel.art          AND srtc = "meubel"          AND hoeveelheid > 2       GROUP   BY datum       HAVING   COUNT(verk) > 2;       

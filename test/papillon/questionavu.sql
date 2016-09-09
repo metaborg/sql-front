@@ -1,0 +1,1 @@
+      SELECT   DISTINCT vestplaats       FROM   leverancier       WHERE   vestplaats NOT IN (   SELECT   woonplaats             FROM   werknemer)          AND vestplaats NOT IN (   SELECT   woonplaats             FROM   klant);       

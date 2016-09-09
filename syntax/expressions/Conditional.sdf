@@ -8,14 +8,20 @@ exports
   sorts CondExpr
   context-free syntax
     CondExpr "AND" CondExpr -> CondExpr {left, cons("And")} 
+    CondExpr "and" CondExpr -> CondExpr {left, cons("And")} 
     CondExpr "OR"  CondExpr -> CondExpr {left, cons("Or")} 
+    CondExpr "or"  CondExpr -> CondExpr {left, cons("Or")} 
     "NOT" CondExpr          -> CondExpr {cons("Not")} 
+    "not" CondExpr          -> CondExpr {cons("Not")} 
     "(" CondExpr ")"        -> CondExpr {bracket} 
 
   context-free priorities
-     "NOT" CondExpr           -> CondExpr
-    > CondExpr "AND" CondExpr -> CondExpr
-    > CondExpr "OR" CondExpr  -> CondExpr
+     {"NOT" CondExpr          -> CondExpr
+      "not" CondExpr          -> CondExpr}
+    >{CondExpr "AND" CondExpr -> CondExpr
+      CondExpr "and" CondExpr -> CondExpr}
+    >{CondExpr "OR" CondExpr  -> CondExpr
+      CondExpr "or" CondExpr  -> CondExpr}
 
   %%%  
    %% Predicates
@@ -23,30 +29,46 @@ exports
   context-free syntax
     RowConstructor CompOp RowConstructor -> CondExpr {cons("Comparison")}
     RowConstructor Not? "BETWEEN" RowConstructor "AND" RowConstructor -> CondExpr {cons("Between")}
+    RowConstructor Not? "between" RowConstructor "and" RowConstructor -> CondExpr {cons("Between")}
     RowConstructor Not? "IN" "(" InPredVal ")" -> CondExpr {cons("In")}
+    RowConstructor Not? "in" "(" InPredVal ")" -> CondExpr {cons("In")}
     "NOT" -> Not {cons("Not")}
+    "not" -> Not {cons("Not")}
     QueryExpr       -> InPredVal
     {ValExpr ","}+  -> InPredVal {cons("Values")}
 
     CharValExpr Not? "LIKE" CharValExpr EscapeClause? -> CondExpr {cons("Like")}
+    CharValExpr Not? "like" CharValExpr EscapeClause? -> CondExpr {cons("Like")}
     "ESCAPE" CharValExpr? -> EscapeClause {cons("Escape")}
+    "escape" CharValExpr? -> EscapeClause {cons("Escape")}
 
     "IS" Not? "NULL" -> CondExpr {cons("IsNull")}
+    "is" Not? "null" -> CondExpr {cons("IsNull")}
 
     RowConstructor CompOp Quantifier "(" QueryExpr ")" -> CondExpr {cons("QuantifiedComparison")}
     "ALL"  -> Quantifier {cons("All")}
+    "all"  -> Quantifier {cons("All")}
     "ANY"  -> Quantifier {cons("Any")}
+    "any"  -> Quantifier {cons("Any")}
     "SOME" -> Quantifier {cons("Some")}
+    "some" -> Quantifier {cons("Some")}
     
     "EXISTS" "(" QueryExpr ")" -> CondExpr {cons("Exists")}
+    "exists" "(" QueryExpr ")" -> CondExpr {cons("Exists")}
     "UNIQUE" "(" QueryExpr ")" -> CondExpr {cons("Unique")}
+    "unique" "(" QueryExpr ")" -> CondExpr {cons("Unique")}
 
     RowConstructor "MATCH" Unique? PartialOrFull? "(" QueryExpr ")" -> CondExpr {cons("Match")}
+    RowConstructor "match" Unique? PartialOrFull? "(" QueryExpr ")" -> CondExpr {cons("Match")}
     "UNIQUE"  -> Unique {cons("Unique")}
+    "unique"  -> Unique {cons("Unique")}
     "PARTIAL" -> PartialOrFull {cons("Partial")}
+    "partial" -> PartialOrFull {cons("Partial")}
     "FULL"    -> PartialOrFull {cons("Full")}
+    "full"    -> PartialOrFull {cons("Full")}
 
     RowConstructor "OVERLAPS" RowConstructor -> CondExpr {cons("Overlaps")}
+    RowConstructor "overlaps" RowConstructor -> CondExpr {cons("Overlaps")}
 
   context-free syntax
     "="  -> CompOp {cons("EqOp")  }
@@ -59,8 +81,10 @@ exports
   context-free syntax
     ValExpr    -> RowConstructor
     "NULL"     -> RowConstructor {cons("Null")}
+    "null"     -> RowConstructor {cons("Null")}
     "DEFAULT"  -> RowConstructor {cons("Default")}
+    "default"  -> RowConstructor {cons("Default")}
 
-    "(" {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
-    "(" QueryExpr             ")" -> RowConstructor {cons("Subquery")}
-
+    "ROW" "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
+    "row" "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}
+    "(" RowConstructor "," {RowConstructor ","}+ ")" -> RowConstructor {cons("Row")}

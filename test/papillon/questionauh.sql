@@ -1,0 +1,1 @@
+      SELECT   verdieping, afdnaam, COUNT(art)       FROM   afdeling, verkart       WHERE   afdeling.afd = verkart.afd          AND verdieping IN (   SELECT   verdieping             FROM   afdeling, verkart             WHERE   afdeling.afd = verkart.afd             GROUP   BY verdieping             HAVING   COUNT(art) > 400)       GROUP   BY verdieping, afdnaam;       

@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(afd, omzet) AS          SELECT   afd, SUM(bedrag)          FROM   verkoop          WHERE   year(datum) = 2002          GROUP   BY afd;           SELECT   afd, omzet       FROM   hulp       WHERE   omzet = (   SELECT   MAX(omzet)             FROM   hulp);           DROP VIEW hulp;       

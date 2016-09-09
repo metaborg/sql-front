@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(lev, aantal) AS          SELECT   lev, SUM(hoeveelheid)          FROM   leverantie          GROUP   BY lev;           SELECT   firmanaam       FROM   hulp, leverancier       WHERE   hulp.lev = leverancier.lev          AND aantal = (   SELECT   MAX(aantal)             FROM   hulp);           DROP VIEW hulp;       

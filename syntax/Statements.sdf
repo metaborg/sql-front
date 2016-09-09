@@ -6,28 +6,86 @@ imports
   lexical/Literal  
   
 exports
-  sorts Stm ExecStm DataStm
+  sorts Stms ExecStm DataStm
   context-free syntax
-    ExecStm ";" -> Stm {cons("Stm")}
+    ExecStm+ -> Stms {cons("Stms")}
 
-    DataStm -> ExecStm
+    DataStm    ";" -> ExecStm {cons("Stm")}
+    DataDefStm ";" -> ExecStm {cons("Stm")}
+    
+    CreateViewStm -> DataDefStm
+    DropViewStm   -> DataDefStm
     
     DeleteStm    -> DataStm
     SelectStm    -> DataStm
     InsertStm    -> DataStm
     UpdateStm    -> DataStm
-    TempTableDec -> DataStm
     
-    QueryExpr OrderByClause? -> SelectStm {cons("SelectStm")}
+    %% Data definition statements
+    "CREATE" OrReplaceClause? "VIEW" ViewName ColumnNames? "AS" SelectStm -> CreateViewStm {cons("CreateView")}
+    "create" OrReplaceClause? "view" ViewName ColumnNames? "as" SelectStm -> CreateViewStm {cons("CreateView")}
+    "DROP" "VIEW" IfExistsClause? {ViewName ","}+                         -> DropViewStm {cons("DropView")}
+    "drop" "view" IfExistsClause? {ViewName ","}+                         -> DropViewStm {cons("DropView")}
+    
+    BaseTable                 -> ViewName {cons("ViewName")}
+    "OR" "REPLACE"            -> OrReplaceClause {cons("OrReplace")}
+    "or" "replace"            -> OrReplaceClause {cons("OrReplace")}
+    "IF" "EXISTS"             -> IfExistsClause {cons("IfExists")}
+    "if" "exists"             -> IfExistsClause {cons("IfExists")}
+    "(" {ColumnName ","}* ")" -> ColumnNames {cons("ColumnNames")}
+    
+    
+    %% Data statements
+    QueryExpr -> SelectStm %%{cons("SelectStm")}
+    
+    "INSERT" IgnoreClause? "INTO" BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?         -> InsertStm {cons("Insert")}
+    "insert" IgnoreClause? "into" BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?         -> InsertStm {cons("Insert")}
+    "INSERT" IgnoreClause? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?                -> InsertStm {cons("Insert")}
+    "insert" IgnoreClause? BaseTable ColumnNames?  ValuesClause OnDuplicateKeyClause?                -> InsertStm {cons("Insert")}
+    "INSERT" IgnoreClause? "INTO" BaseTable "SET" {ColumnValueAssignment ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
+    "insert" IgnoreClause? "into" BaseTable "set" {ColumnValueAssignment ","}+ OnDuplicateKeyClause? -> InsertStm {cons("Insertm")}
+    "INSERT" IgnoreClause? BaseTable "SET" {ColumnValueAssignment ","}+ OnDuplicateKeyClause?        -> InsertStm {cons("Insertm")}
+    "insert" IgnoreClause? BaseTable "set" {ColumnValueAssignment ","}+ OnDuplicateKeyClause?        -> InsertStm {cons("Insertm")}
+    
+    ColumnName "=" RowValue -> ColumnValueAssignment {cons("ColumnValueAssignment")}
 
-  context-free syntax
-    "ORDER" "BY" {SortSpec ","}+ -> OrderByClause {cons("OrderBy")}
-
-    %% @todo collate clause
-    SortKey OrderingSpec? -> SortSpec {cons("SortSpec")}
+    "IGNORE" -> IgnoreClause {cons("Ignore")}
+    "ignore" -> IgnoreClause {cons("Ignore")}
+    "VALUES" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    "values" {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    "VALUE"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    "value"  {RowValues ","}+ -> ValuesClause {cons("ValuesClause")}
+    "ON" "DUPLICATE" "KEYS" "UPDATE" {ColumnValueAssignment ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
+    "on" "duplicate" "keys" "update" {ColumnValueAssignment ","}+ -> OnDuplicateKeyClause {cons("OnDuplicateKeyClause")}
     
-    ColumnName      -> SortKey
-    UnsignedInteger -> SortKey
+    "UPDATE" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("Update")}
+    "update" IgnoreClause? UpdatableTable  SetValues OrderByClause? LimitClause? -> UpdateStm {cons("Update")}
+    "UPDATE" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("Updatem")}
+    "update" IgnoreClause? UpdatableTables SetValues                             -> UpdateStm {cons("Updatem")}
     
-    "ASC"  -> OrderingSpec {cons("Ascending")}
-    "DESC" -> OrderingSpec {cons("Descending")}    
+    BaseTable                                -> UpdatableTable
+    JoinTableExpr                            -> UpdatableTable
+    UpdatableTable "," {UpdatableTable ","}+ -> UpdatableTables {cons("UpdatableTables")}
+    
+    "DELETE" "FROM" BaseTable WhereClause? OrderByClause? LimitClause?  -> DeleteStm {cons("Delete")}
+    "delete" "from" BaseTable WhereClause? OrderByClause? LimitClause?  -> DeleteStm {cons("Delete")}
+    "DELETE"        {DeletableTable ","}+ "FROM"  TableRef WhereClause? -> DeleteStm {cons("Deletem")}
+    "delete"        {DeletableTable ","}+ "from"  TableRef WhereClause? -> DeleteStm {cons("Deletem")}
+    "DELETE" "FROM" {DeletableTable ","}+ "USING" TableRef WhereClause? -> DeleteStm {cons("Deletem")}
+    "delete" "from" {DeletableTable ","}+ "using" TableRef WhereClause? -> DeleteStm {cons("Deletem")}
+    
+    BaseTable         -> DeletableTable
+    BaseTable "." "*" -> DeletableTable {cons("DeleteableTableDotAll")}
+    
+    SetClause WhereClause? -> SetValues {cons("SetValues")}
+    
+    "SET" {ColumnValueAssignment ","}+ -> SetClause {cons("SetClause")}
+    "set" {ColumnValueAssignment ","}+ -> SetClause {cons("SetClause")}
+    
+    
+    "(" {RowValue   ","}* ")" -> RowValues {cons("RowValues")}
+    "(" {ColumnName ","}* ")" -> ColumnNames {cons("ColumnNames")}
+    
+    UnsignedLit -> RowValue
+    "DEFAULT"   -> RowValue {cons("Default")}
+    "default"   -> RowValue {cons("Default")}

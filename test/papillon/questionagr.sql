@@ -1,0 +1,1 @@
+      SELECT   artikel.beschrijving, soort.beschrijving       FROM   soort, artikel       WHERE   soort.srtc = artikel.srtc          AND voorraad - 689 > (   SELECT AVG(voorraad)             FROM artikel);       

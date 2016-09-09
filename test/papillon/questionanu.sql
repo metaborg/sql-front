@@ -1,0 +1,1 @@
+      SELECT   COUNT(afd)       FROM   afdeling       WHERE   NOT EXISTS (   SELECT   art             FROM   verkart             WHERE   verkart.afd = afdeling.afd                AND art NOT IN (   SELECT   art                   FROM   verkoop                   WHERE   verkoop.afd = afdeling.afd));       

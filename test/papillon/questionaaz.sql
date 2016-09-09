@@ -1,0 +1,1 @@
+      SELECT   afd, afdnaam       FROM   afdeling       WHERE   afd NOT IN (   SELECT   afd             FROM   verkoop, klant             WHERE   verkoop.klant = klant.klant                AND woonplaats = "Rotterdam");       

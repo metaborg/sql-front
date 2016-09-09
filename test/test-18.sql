@@ -1,3 +1,3 @@
 (SELECT * FROM Book)
   UNION
-(SELECT * FROM Paper)
+(SELECT * FROM Paper);

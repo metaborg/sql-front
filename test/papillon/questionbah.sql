@@ -1,0 +1,1 @@
+      SELECT   DISTINCT verkart.afd, afdnaam       FROM   verkart, artikel, soort, afdeling       WHERE   verkart.art = artikel.art          AND artikel.srtc = soort.srtc          AND soort.beschrijving = "radio/tv"          AND kleur = "blank"          AND verkart.afd = afdeling.afd;       

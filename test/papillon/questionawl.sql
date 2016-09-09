@@ -1,0 +1,1 @@
+      SELECT   DISTINCT naam, voorl, afdnaam       FROM   artikel, afdeling, verkart, werknemer       WHERE   verkart.art = artikel.art          AND srtc = "meubel"          AND verkart.afd = afdeling.afd          AND verdieping = 2          AND verkart.afd = werknemer.afd;       

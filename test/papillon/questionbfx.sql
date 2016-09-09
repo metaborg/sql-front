@@ -1,0 +1,1 @@
+      SELECT   verkart.afd       FROM   verkart, artikel       WHERE   verkart.art = artikel.art          AND srtc = "meubel"       GROUP   BY verkart.afd       HAVING   COUNT(verkart.afd) < (   SELECT   COUNT(art)             FROM   artikel             WHERE   srtc = "meubel");       

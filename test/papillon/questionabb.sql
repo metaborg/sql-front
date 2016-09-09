@@ -1,0 +1,1 @@
+      SELECT   COUNT(art)       FROM   artikel       WHERE   art NOT IN (   SELECT   art             FROM   verkart, afdeling             WHERE   verkart.afd = afdeling.afd                AND afdnaam = "Meubel");       

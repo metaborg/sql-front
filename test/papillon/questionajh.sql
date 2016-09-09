@@ -1,0 +1,1 @@
+      SELECT   COUNT(DISTINCT inkart.art)       FROM   inkart       WHERE   lev IN (   SELECT   lev             FROM   inkart, artikel             WHERE   inkart.art = artikel.art                AND srtc = "bolgewas");       

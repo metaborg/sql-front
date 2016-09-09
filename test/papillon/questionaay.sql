@@ -1,0 +1,1 @@
+      SELECT   COUNT(art)       FROM   verkart, afdeling       WHERE   verdieping = 2          AND verkart.afd = afdeling.afd          AND verkart.afd NOT IN (   SELECT   AFD             FROM   verkart,artikel             WHERE   verkart.art = artikel.art                AND srtc = "bedgoed");       

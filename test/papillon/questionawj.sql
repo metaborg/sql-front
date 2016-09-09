@@ -1,0 +1,1 @@
+      SELECT   beschrijving, voorraad, prijs       FROM   artikel, afdeling, verkart       WHERE   afdeling.afdnaam = "Sport"          AND artikel.prijs > 299.99          AND afdeling.afd = verkart.afd          AND artikel.art = verkart.art;       

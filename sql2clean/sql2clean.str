@@ -1,0 +1,17 @@
+module sql2clean
+
+imports
+	include/SQL
+	trans/sql-shuffle
+	lib/editor-common.generated
+	
+strategies
+	clean(|uuid) =
+		?ifn;
+		parse-sql-string;
+		sql2clean(|uuid)
+
+	sql2clean(|uuid) =
+		disambiguate;
+		clean-sql-helper(|uuid);
+		map(map(pack;pp-sql-string))

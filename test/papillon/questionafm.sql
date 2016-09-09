@@ -1,0 +1,1 @@
+      SELECT   afdeling.afd, afdnaam       FROM   verkart, artikel, afdeling       WHERE   verkart.art = artikel.art          AND kleur = "geel"          AND afdeling.afd = verkart.afd       GROUP   BY afdeling.afd, afdnaam       HAVING   COUNT(verkart.art) > (   SELECT   COUNT(art) / 10             FROM   artikel             WHERE   kleur = "geel");       

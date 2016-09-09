@@ -3,4 +3,4 @@ SELECT
 FROM
   Book
 WHERE
-  1 > 2 AND 4 = 5
+  1 > 2 AND 4 = 5;

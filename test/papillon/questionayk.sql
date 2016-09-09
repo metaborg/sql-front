@@ -1,0 +1,1 @@
+      CREATE   VIEW hulp(art) AS          SELECT   art          FROM   inkart          GROUP   BY art          HAVING   COUNT(lev) = 2;           SELECT   COUNT(art)       FROM   hulp;           DROP VIEW hulp;       

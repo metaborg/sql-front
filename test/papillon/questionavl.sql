@@ -1,0 +1,1 @@
+      SELECT   afd, klant.klant, naam, voorl, COUNT(verk)       FROM   verkoop, klant       WHERE   verkoop.klant = klant.klant          AND woonplaats = "Rotterdam"       GROUP   BY afd, klant.klant, naam, voorl       HAVING   COUNT(verk) > 3;       

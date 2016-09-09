@@ -21,3 +21,12 @@ syntax/SQL*.generated.pp
 utils
 lib/*.generated.str
 lib-refactoring/*.generated.str
+/include
+sql2clean.jar
+sql2clean/strategoxt.jar
+sql2clean/src-gen
+test/*.aterm
+test/papillon/*.aterm
+test/*.clean.sql
+test/papillon/*.clean.sql
+/syntax-gen

@@ -1,4 +1,3 @@
 (SELECT Author FROM Book)
   UNION
-(SELECT Author FROM Paper)
-
+(SELECT Author FROM Paper);

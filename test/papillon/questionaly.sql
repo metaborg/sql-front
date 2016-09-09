@@ -1,0 +1,1 @@
+      SELECT   soort.beschrijving, inkart.prijs       FROM   soort, inkart, artikel       WHERE   soort.srtc = artikel.srtc          AND artikel.art = inkart.art          AND inkart.prijs = (   SELECT MAX(prijs)             FROM inkart);       

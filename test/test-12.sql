@@ -4,5 +4,5 @@ FROM
   ( SELECT
       Title, Author, Publisher
     FROM Book
-  ) AS Books
+  ) AS Books;
 

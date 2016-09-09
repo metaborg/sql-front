@@ -1,4 +1,4 @@
 SELECT
   Author AS Writer
 FROM
-  Book
+  Book;
